@@ -231,40 +231,40 @@ class ShiftWorkDialog extends React.Component {
     var timePeriodsSelect = this.state.timePeriodsSelect;
     var index = 1;
     if (timePeriodsSelect.length === 0) {
-      if (!this.state.startTime || !this.state.endTime) {
+      if (!this.state.startTime.getTime() || !this.state.endTime.getTime()) {
         index = 2
       }
-      else if (this.state.startTime >= this.state.endTime) {
+      else if (this.state.startTime.getTime() >= this.state.endTime.getTime()) {
         toast.warning("Thời gian bắt đầu không được lớn hơn thời gian kết thúc")
         index = 3;
       }
     }
     else {
       for (var i = 0; i < timePeriodsSelect.length; i++) {
-        if (!this.state.startTime || !this.state.endTime) {
+        if (!this.state.startTime.getTime() || !this.state.endTime.getTime()) {
           index = 2;
           // toast.warning(t("maintainRequestStatus.noti.noSelected"))
           break;
-        } else if (this.state.startTime >= this.state.endTime) {
+        } else if (this.state.startTime.getTime() >= this.state.endTime.getTime()) {
           // toast.warning(t("maintainRequestStatus.noti.selectedFalse"))
           index = 3;
           break;
-        } else if (this.state.startTime >= timePeriodsSelect[i].startTime && this.state.startTime <= timePeriodsSelect[i].endTime) {
+        } else if (this.state.startTime.getTime() >= timePeriodsSelect[i].startTime.getTime() && this.state.startTime.getTime() <= timePeriodsSelect[i].endTime.getTime()) {
           // toast.warning(t("maintainRequestStatus.noti.dupli_time"))
           index = 4;
           break;
         }
-        else if (this.state.endTime >= timePeriodsSelect[i].startTime && this.state.endTime <= timePeriodsSelect[i].endTime) {
+        else if (this.state.endTime.getTime() >= timePeriodsSelect[i].startTime.getTime() && this.state.endTime.getTime() <= timePeriodsSelect[i].endTime.getTime()) {
           // toast.warning(t("maintainRequestStatus.noti.dupli_time"))
           index = 4;
           break;
         }
-        else if (this.state.endTime >= timePeriodsSelect[i].startTime && this.state.startTime <= timePeriodsSelect[i].startTime) {
+        else if (this.state.endTime.getTime() >= timePeriodsSelect[i].startTime.getTime() && this.state.startTime.getTime() <= timePeriodsSelect[i].startTime.getTime()) {
           // toast.warning(t("maintainRequestStatus.noti.dupli_time"))
           index = 4;
           break;
         }
-        else if (this.state.endTime >= timePeriodsSelect[i].endTime && this.state.startTime <= timePeriodsSelect[i].endTime) {
+        else if (this.state.endTime.getTime() >= timePeriodsSelect[i].endTime.getTime() && this.state.startTime.getTime() <= timePeriodsSelect[i].endTime.getTime()) {
           // toast.warning(t("maintainRequestStatus.noti.dupli_time"))
           index = 4;
           break;
@@ -405,6 +405,7 @@ class ShiftWorkDialog extends React.Component {
                     onChange={(startTime) => this.handleChangeDate(startTime, "startTime")}
                     type={isTrueTime ? "startTime" : "datetime"}
                     validators={['required', 'isTrueTime']}
+                    invalidDateMessage={"Không đúng định dạng"}
                     errorMessages={[t("general.errorMessages_required"), t("general.isTruePhoneNumer")]}
                     KeyboardButtonProps={{
                       'aria-label': 'change date',
@@ -426,6 +427,7 @@ class ShiftWorkDialog extends React.Component {
                     value={endTime}
                     type={isTrueTime ? "endTime" : "datetime"}
                     validators={['required', 'isTrueTime']}
+                    invalidDateMessage={"Không đúng định dạng"}
                     errorMessages={[t("general.errorMessages_required"), t("general.isTruePhoneNumer")]}
                     onChange={(endTime) => this.handleChangeDate(endTime, "endTime")}
                     KeyboardButtonProps={{

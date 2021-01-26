@@ -281,7 +281,7 @@ class DonHangDialog extends Component {
             <Grid item md={12} sm={12} xs={12} className="mt-10">
                 <FormControl fullWidth={true} variant="outlined"
                   size="small">
-                  <InputLabel htmlFor="gender-simple">{<span className="font"><span style={{ color: "red" }}>*</span>Loại nhân viên</span>}</InputLabel>
+                  <InputLabel htmlFor="gender-simple">{<span className="font"><span style={{ color: "red" }}>*</span>Trạng thái đơn hàng</span>}</InputLabel>
                   <Select
                     value={this.state.status}
                     onChange={status => this.handleChange(status, "status")}

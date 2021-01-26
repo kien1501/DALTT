@@ -1,9 +1,9 @@
 package com.globits.da.dto;
 import java.util.Date;
 
-import javax.persistence.Column;
 import com.globits.core.dto.PersonDto;
 import com.globits.da.domain.Customer;
+import com.globits.security.dto.UserDto;
 
 
 public class CustomerDto extends BaseObjectDto{
@@ -13,7 +13,7 @@ public class CustomerDto extends BaseObjectDto{
 	private String phoneNumber;
 	private String email;
 	private Integer customerType;
-	private PersonDto person;
+	private UserDto user;
 	private String username;						//Tên đăng nhập
 	private String gender;						//Giới tính
 	private Date birthDate;						//Ngày sinh
@@ -68,13 +68,13 @@ public class CustomerDto extends BaseObjectDto{
 	public void setCustomerType(Integer customerType) {
 		this.customerType = customerType;
 	}
-
-	public PersonDto getPerson() {
-		return person;
+	
+	public UserDto getUser() {
+		return user;
 	}
 
-	public void setPerson(PersonDto person) {
-		this.person = person;
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
 
 	public Boolean isDefault() {
@@ -172,10 +172,10 @@ public class CustomerDto extends BaseObjectDto{
 				this.isDefaultShippingAddress = false;
 			}
 			
-			if (customer.getPerson() != null) {
-				this.person = new PersonDto();
-				this.person.setId(customer.getPerson().getId());
-				this.person.setDisplayName(customer.getPerson().getDisplayName());
+			if (customer.getUser() != null) {
+				this.user = new UserDto();
+				this.user.setId(customer.getUser().getId());
+				this.user.setDisplayName(customer.getUser().getPerson().getDisplayName());
 			}
 			this.fullAddress = fullAddressView;
 		}

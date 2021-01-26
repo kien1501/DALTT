@@ -56,7 +56,7 @@ public class EventServiceImpl extends GenericServiceImpl< Event, UUID> implement
 				entity = new Event();
 			}
 			Date date  = new Date();
-			if(dto.getIsActivate() && !dto.getStartDate().before(date) || !dto.getEndDate().after(date)) {
+			if(dto.getIsActivate() != null && dto.getIsActivate() && !dto.getStartDate().before(date) || !dto.getEndDate().after(date)) {
 				return null;
 			}
 			entity.setName(dto.getName());
@@ -87,7 +87,7 @@ public class EventServiceImpl extends GenericServiceImpl< Event, UUID> implement
 					}
 					sanPhamDonHang.setProduct(sanPham);
 					sanPhamDonHang.setDiscountPercent(sanPhamDonHang.getDiscountPercent());
-					if(dto.getIsActivate()) {
+					if(dto.getIsActivate() != null &&  dto.getIsActivate()) {
 						if(sanPham.getPrice() > (sanPhamDonHang.getDiscountPercent()/100)*sanPham.getPrice()) {
 							sanPham.setCurrentSellingPrice(sanPham.getPrice() - (sanPhamDonHang.getDiscountPercent()/100)*sanPham.getPrice());
 						}else {
@@ -100,7 +100,7 @@ public class EventServiceImpl extends GenericServiceImpl< Event, UUID> implement
 				}
 
 				if (entity.getProductEvent() == null) {
-					entity.setProductEvent(listSanPhamDonHang);;
+					entity.setProductEvent(listSanPhamDonHang);
 				} else {
 					entity.getProductEvent().clear();
 					entity.getProductEvent().addAll(listSanPhamDonHang);

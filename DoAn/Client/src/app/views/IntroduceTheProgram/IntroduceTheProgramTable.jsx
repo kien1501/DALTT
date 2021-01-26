@@ -422,6 +422,14 @@ class IntroduceTheProgramTable extends Component {
                 padding: "dense",
                 toolbar: false,
               }}
+              localization={{
+                body: {
+                  emptyDataSourceMessage: `${t('general.emptyDataMessageTable')}`
+                },
+                toolbar: {
+                    nRowsSelected: `${t('general.selects')}`
+                  }
+              }}
               components={{
                 Toolbar: (props) => <MTableToolbar {...props} />,
               }}

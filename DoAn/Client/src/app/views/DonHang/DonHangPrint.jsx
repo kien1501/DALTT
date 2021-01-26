@@ -91,17 +91,17 @@ class DonHangPrint extends React.Component {
     pri.focus();
     pri.print();
   };
-  handleExportPdf = () => {
-    let content = document.getElementById("divcontents");
-    html2canvas(content).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF();
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      // pdf.output('dataurlnewwindow');
-      pdf.save("download.pdf");
-    });
-    this.props.handleOKEditClose();
-  };
+  // handleExportPdf = () => {
+  //   let content = document.getElementById("divcontents");
+  //   html2canvas(content).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF();
+  //     pdf.addImage(imgData, "JPEG", 0, 0);
+  //     // pdf.output('dataurlnewwindow');
+  //     pdf.save("download.pdf");
+  //   });
+  //   this.props.handleOKEditClose();
+  // };
 
   render() {
     const { t, i18n } = this.props;
@@ -160,6 +160,14 @@ class DonHangPrint extends React.Component {
                       {t("SĐT khách hàng")} :{" "}
                       {this.state.customer
                         ? this.state.customer.phoneNumber
+                        : ""}
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      {t("Địa chỉ")} :{" "}
+                      {this.state.customer
+                        ? this.state.customer.fullAddress
                         : ""}
                     </p>
                   </li>
@@ -234,19 +242,19 @@ class DonHangPrint extends React.Component {
                     }}
                   >
                     <tr>
-                      <th style={{ border: "1px solid" }}>
+                      <th style={{ border: "1px solid",width: "20%" }}>
                         {t("Tên sản phẩm")}
                       </th>
-                      <th style={{ border: "1px solid" }}>
+                      <th style={{ border: "1px solid",width: "20%" }}>
                         {t("Đơn giá")}
                       </th>
-                      <th style={{ border: "1px solid", width: "30%" }}>
+                      <th style={{ border: "1px solid", width: "20%" }}>
                         {t("Số lượng")}
                       </th>
-                      <th style={{ border: "1px solid", width: "30%" }}>
+                      <th style={{ border: "1px solid", width: "20%" }}>
                         {t("Giảm giá")}
                       </th>
-                      <th style={{ border: "1px solid", width: "30%" }}>
+                      <th style={{ border: "1px solid", width: "20%" }}>
                         {t("Thành tiền")}
                       </th>
                       
@@ -318,7 +326,7 @@ class DonHangPrint extends React.Component {
               >
                 {t("general.cancel")}
               </Button>
-              {this.props.print && (
+              {(
                 <Button variant="contained" color="primary" type="submit">
                   {t("In")}
                 </Button>

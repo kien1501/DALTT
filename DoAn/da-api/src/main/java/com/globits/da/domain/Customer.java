@@ -15,6 +15,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import com.globits.core.domain.BaseObject;
 import com.globits.core.domain.Person;
+import com.globits.security.domain.User;
 /*
  * Khách hàng
  */
@@ -49,9 +50,9 @@ public class Customer extends BaseObject{
 	private Boolean isDefault;						//mặc định của Person
 	
 	@ManyToOne
-	@JoinColumn(name="person_id")
+	@JoinColumn(name="user_id")
 	@NotFound(action = NotFoundAction.IGNORE)
-	private Person person;
+	private User user;
 	
 	public String getName() {
 		return name;
@@ -92,12 +93,7 @@ public class Customer extends BaseObject{
 	public Customer() {
 		this.setUuidKey(UUID.randomUUID());
 	}
-	public Person getPerson() {
-		return person;
-	}
-	public void setPerson(Person person) {
-		this.person = person;
-	}
+	
 	public Boolean isDefault() {
 		return isDefault;
 	}
@@ -139,6 +135,12 @@ public class Customer extends BaseObject{
 	}
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }
