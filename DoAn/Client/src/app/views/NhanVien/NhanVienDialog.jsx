@@ -280,10 +280,12 @@ class UrbanAreaDialog extends Component {
                 />
               </Grid>
               <Grid item md={12} sm={12} xs={12} className="mt-10">
+              
                 <FormControl fullWidth={true} variant="outlined"
                   size="small">
-                  <InputLabel htmlFor="gender-simple">{<span className="font"><span style={{ color: "red" }}>*</span>Loại nhân viên</span>}</InputLabel>
+                  <InputLabel htmlFor="gender-simple">{<span className=""><span style={{ color: "red" }}>*</span>Loại nhân viên</span>}</InputLabel>
                   <Select
+                   label = {<span className={""}><span style={{color:"red"}}>*</span>Loại nhân viên</span>}
                     value={type}
                     onChange={type => this.handleChange(type, "type")}
                     inputProps={{

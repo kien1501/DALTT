@@ -403,7 +403,7 @@ class Event extends React.Component {
       { 
         title: t("Ngày bắt đầu"), field: "startDate", width: "150",
         render: rowData =>
-          (rowData.startTime) ? <span>{moment(rowData.startTime).format("DD/MM/YYYY, HH:mm")}</span> : '' 
+          (rowData.startDate) ? <span>{moment(rowData.startDate).format("DD/MM/YYYY, HH:mm")}</span> : '' 
       },
       { 
         title: t("Ngày kết thúc"), field: "endDate", width: "150" ,

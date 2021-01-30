@@ -132,7 +132,7 @@ class EventDialog extends Component {
       this.setState({ isActive: event.target.checked });
       return;
     }
-    if (source === "active") {
+    if (source === "isActive") {
         this.setState({ isActive: event.target.checked });
         return;
       }
@@ -187,7 +187,7 @@ class EventDialog extends Component {
     if(productEvent == null ){
       productEvent =[] 
       let p = {}
-      p.product = item;
+      p.product = item.product;
       p.discountPercent = e.target.value
       productEvent.push(p)
     }
@@ -382,8 +382,8 @@ class EventDialog extends Component {
                   size="small"
                   value={this.state.isActive}
                   className="mb-16"
-                  name="active"
-                  onChange={active => this.handleChange(active, "active")}
+                  name="isActive"
+                  onChange={isActive => this.handleChange(isActive, "isActive")}
                   control={<Checkbox
                     checked={this.state.isActive}
                   />}

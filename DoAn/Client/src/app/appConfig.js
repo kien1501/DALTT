@@ -8,7 +8,7 @@ module.exports = Object.freeze({
     ACTIVE_LAYOUT:"layout1",//layout1 = vertical, layout2=horizontal
     // API_ENPOINT:"http://globits.net:8088/pi",//deveqa
     // API_ENPOINT:"http://globits.net:8090/pi",//eqa
-    API_ENPOINT:"http://localhost:8085/daa",
+    API_ENPOINT:"http://localhost:8085/da",
     AUTH_MODE:"Spring",//"Spring" or "Keycloak"
     LOGIN_PAGE:APPLICATION_PATH+"session/signin",//Nếu là Spring
     HOME_PAGE:APPLICATION_PATH+"dashboard/analytics",//Nếu là Spring

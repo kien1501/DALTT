@@ -565,13 +565,13 @@ class AgentDialog extends Component {
                       value={productColors}
                       label={
                         <span className="font">
-                          <span style={{ color: "red" }}> * </span>
+                          <span style={{ color: "red" }}></span>
                           Màu sản phẩm
                         </span>
                       }
                       fullWidth
-                      validators={["required"]}
-                      errorMessages="Vui lòng chọn màu của sản phẩm"
+                      // validators={["required"]}
+                      // errorMessages="Vui lòng chọn màu của sản phẩm"
                       variant="outlined"
                       size="small"
                     />}
