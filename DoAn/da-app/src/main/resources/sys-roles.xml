@@ -10,6 +10,10 @@
 		<description>The system super administrative role</description>
 	</sys-role>
 	<sys-role>
+		<name>ROLE_HR_MANAGEMENT</name>
+		<description>The system super administrative role</description>
+	</sys-role>
+	<sys-role>
 		<name>ROLE_ADMIN</name>
 		<description>The system administrative role</description>
 	</sys-role>
