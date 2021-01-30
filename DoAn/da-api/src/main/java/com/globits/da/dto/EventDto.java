@@ -14,7 +14,7 @@ public class EventDto extends BaseObjectDto{
 	private Date startDate;//Ngày bắt đầu
 	private Date endDate;//Ngày kết thúc
 	private Boolean isActivate;//Sự kiện còn hoạt động không
-	private Set<ProductEventDto> productEvent = new HashSet<ProductEventDto>();
+	private Set<ProductEventDto> productEvent;
 	public String getName() {
 		return name;
 	}
@@ -69,7 +69,7 @@ public class EventDto extends BaseObjectDto{
 			this.startDate = e.getStartDate();
 			this.endDate = e.getEndDate();
 			this.isActivate = e.getIsActivate();
-			if (e.getProductEvent()!= null) {
+			if (e.getProductEvent()!= null && e.getProductEvent().size() >0) {
 				this.productEvent = new HashSet<ProductEventDto>();
 				for (ProductEvent sanPhamPhieuXuatDto :e.getProductEvent()) {
 					this.productEvent.add(new ProductEventDto(sanPhamPhieuXuatDto));

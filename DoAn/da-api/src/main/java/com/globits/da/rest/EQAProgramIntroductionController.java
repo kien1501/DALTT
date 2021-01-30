@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globits.core.Constants;
+import com.globits.da.HrConstants;
 import com.globits.da.dto.EQAProgramIntroductionDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.service.EQAProgramIntroductionService;
@@ -25,7 +26,7 @@ public class EQAProgramIntroductionController {
 	@Autowired
 	private EQAProgramIntroductionService service;
 	
-//	@Secured({ Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "searchByDto", method = RequestMethod.POST)
 	public ResponseEntity<Page<EQAProgramIntroductionDto>> searchByDto(@RequestBody SearchDto dto) {
 		Page<EQAProgramIntroductionDto> result = service.searchByDto(dto);
@@ -46,7 +47,7 @@ public class EQAProgramIntroductionController {
 		return new ResponseEntity<EQAProgramIntroductionDto>(result, (result != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 	
-//	@Secured({Constants.ROLE_ADMIN})
+	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "getById/{id}", method = RequestMethod.GET)
 	public ResponseEntity<EQAProgramIntroductionDto> getById(@PathVariable("id") String id) {
 		EQAProgramIntroductionDto result = service.getById(UUID.fromString(id));
@@ -59,14 +60,13 @@ public class EQAProgramIntroductionController {
 		return new ResponseEntity<EQAProgramIntroductionDto>(result, (result != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 	
-//	@Secured({ Constants.ROLE_ADMIN,Constants.ROLE_USER, PIConst.ROLE_COORDINATOR, PIConst.ROLE_HEALTH_ORG})
+	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "/checkCode",method = RequestMethod.GET)
 	public ResponseEntity<Boolean> checkDuplicateCode(@RequestParam(value = "id", required=false) UUID id, @RequestParam("code") String code) {
 		Boolean result = service.checkDuplicateCode(id, code);
 		return new ResponseEntity<Boolean>(result, (result != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
-//	
-	@Secured({Constants.ROLE_ADMIN})
+	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Boolean> deleteById(@PathVariable("id") String id) {
 		Boolean result = service.deleteById(UUID.fromString(id));

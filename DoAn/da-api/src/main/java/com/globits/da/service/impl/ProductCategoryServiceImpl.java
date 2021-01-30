@@ -1,5 +1,6 @@
 package com.globits.da.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,21 +15,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
+import com.globits.da.domain.Product;
 import com.globits.da.domain.ProductCategory;
 import com.globits.da.dto.ProductCategoryDto;
+import com.globits.da.dto.ProductDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.ProductCategoryRepository;
+import com.globits.da.repository.ProductRepository;
 import com.globits.da.service.ProductCategoryService;
 @Service
 public class ProductCategoryServiceImpl extends GenericServiceImpl<ProductCategory, UUID> implements ProductCategoryService{
 	@Autowired
 	ProductCategoryRepository repos;
+	@Autowired
+	ProductRepository productRepository;
 	@Override
 	public Page<ProductCategoryDto> getPage(int pageSize, int pageIndex) {
 		Pageable pageable = PageRequest.of(pageIndex-1, pageSize);
 		return repos.getListPage(pageable);
 	}
-
 	@Override
 	public ProductCategoryDto saveOrUpdate(UUID id, ProductCategoryDto dto) {
 		if(dto != null ) {
@@ -132,6 +137,22 @@ public class ProductCategoryServiceImpl extends GenericServiceImpl<ProductCatego
 	public Boolean deleteCheckById(UUID id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<ProductCategoryDto> getAllCategory() {
+		List<ProductCategoryDto> listData = repos.getAllCategory();
+		List<Product> listProduct = productRepository.findAll();
+		for (ProductCategoryDto productCategoryDto : listData) {
+			for (Product product : listProduct) {
+				if(productCategoryDto.getId() != null && product.getProductCategory() != null &&  product.getProductCategory().getId() != null && productCategoryDto.getId().equals(product.getProductCategory().getId())) {
+					if(productCategoryDto.getListProduct() == null ) {
+						productCategoryDto.setListProduct(new ArrayList<ProductDto>());
+					}
+					productCategoryDto.getListProduct().add(new ProductDto(product));
+				}
+			}
+		}
+		return listData ;
 	}
 
 }

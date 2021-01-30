@@ -1,5 +1,6 @@
 package com.globits.da.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import com.globits.da.dto.search.SearchDto;
 @Service
 public interface ProductCategoryService extends GenericService<ProductCategory, UUID>{
 	public Page<ProductCategoryDto> getPage(int pageSize, int pageIndex);
+	public List<ProductCategoryDto> getAllCategory();
 	public ProductCategoryDto saveOrUpdate(UUID id,ProductCategoryDto dto);
 	public Boolean deleteKho(UUID id);
 	public ProductCategoryDto getCertificate(UUID id);

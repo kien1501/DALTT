@@ -1,8 +1,8 @@
 package com.globits.da.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -23,18 +23,20 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.globits.core.domain.Department;
-import com.globits.core.domain.Organization;
+import com.globits.core.domain.Person;
 import com.globits.core.service.impl.GenericServiceImpl;
 import com.globits.core.utils.CommonUtils;
 import com.globits.core.utils.HttpUtils;
-import com.globits.security.domain.User;
+import com.globits.da.HrConstants;
 import com.globits.da.domain.Customer;
 import com.globits.da.dto.CustomerDto;
-import com.globits.da.dto.StaffDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.CustomerRepository;
 import com.globits.da.service.CustomerService;
+import com.globits.security.domain.Role;
+import com.globits.security.domain.User;
+import com.globits.security.repository.UserRepository;
+import com.globits.security.service.RoleService;
 
 @Transactional
 @Service
@@ -42,6 +44,10 @@ public class CustomerServiceImpl extends GenericServiceImpl<Customer, UUID> impl
 	
 	@Autowired
 	private EntityManager manager;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private RoleService roleService;
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -86,6 +92,37 @@ public class CustomerServiceImpl extends GenericServiceImpl<Customer, UUID> impl
 		   }
 		   
 		   cy.setAge(dto.getAge());
+		   cy.setIsCreate(dto.getIsCreate());
+		   //
+		   if(dto.getIsCreate() == true) {
+		   User user = userRepository.findByUsername(cy.getCode());
+			Person person = null;
+			if(user==null) {
+				user = new User();
+				user.setUsername(cy.getCode());
+				user.setEmail(dto.getEmail());
+				if(dto.getPassword() != null) {
+					user.setPassword(dto.getPassword());
+				}else {
+					user.setPassword(dto.getPassword());
+				}
+				
+
+				Role roleUSER = roleService.findByName(HrConstants.ROLE_USER);
+				Set<Role> roles = new HashSet<Role>();
+				roles.add(roleUSER);
+				user.setRoles(roles);
+				
+				person = new Person();
+				person.setDisplayName(dto.getName());
+				person.setPhoneNumber(dto.getPhoneNumber());
+				person.setEmail(dto.getEmail());
+				person.setUser(user);
+				user.setPerson(person);
+				user = userRepository.save(user);
+			}
+		   }
+		   
 		   cy = customerRepository.save(cy);
 		   return new CustomerDto(cy);
 		}

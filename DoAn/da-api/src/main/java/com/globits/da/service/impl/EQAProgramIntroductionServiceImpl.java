@@ -20,11 +20,14 @@ import com.globits.da.domain.EQAProgramIntroduction;
 import com.globits.da.dto.EQAProgramIntroductionDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.EQAProgramIntroductionRepository;
+import com.globits.da.repository.ProductCategoryRepository;
 import com.globits.da.service.EQAProgramIntroductionService;
 
 @Transactional
 @Service
 public class EQAProgramIntroductionServiceImpl extends GenericServiceImpl<EQAProgramIntroduction, UUID> implements EQAProgramIntroductionService{
+	@Autowired
+	EQAProgramIntroductionRepository repos;
 	@Autowired
 	private EntityManager manager;
 	
@@ -154,6 +157,11 @@ public class EQAProgramIntroductionServiceImpl extends GenericServiceImpl<EQAPro
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<EQAProgramIntroductionDto> getAllNews() {
+		return repos.getAllNews() ;
 	}
 	
 }

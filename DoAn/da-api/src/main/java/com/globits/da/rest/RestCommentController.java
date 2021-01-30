@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globits.core.Constants;
+import com.globits.da.HrConstants;
 import com.globits.da.dto.CommentDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.service.CommentService;
@@ -25,26 +25,26 @@ import com.globits.da.service.CommentService;
 public class RestCommentController {
 	@Autowired
 	CommentService service;
-//	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "/{productId}", method = RequestMethod.GET)
 	public ResponseEntity<List<CommentDto>> getPage(@PathVariable UUID productId) {
 		List<CommentDto> results = service.getListByProduct(productId);
 		return new ResponseEntity<List<CommentDto>>(results, HttpStatus.OK);
 	}
-//	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<CommentDto> save(@RequestBody CommentDto dto) {
 		CommentDto result = service.saveOrUpdate(null,dto);
 		return new ResponseEntity<CommentDto>(result, HttpStatus.OK);
 	}
-//	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<CommentDto> save(@RequestBody CommentDto dto ,@PathVariable UUID id) {
 		CommentDto result = service.saveOrUpdate(id,dto);
 		return new ResponseEntity<CommentDto>(result, HttpStatus.OK);
 	}
 
-//	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<CommentDto> getList(@PathVariable UUID id) {
 		CommentDto result = service.getCertificate(id);
@@ -65,7 +65,7 @@ public class RestCommentController {
 		return new ResponseEntity<CommentDto>(result, HttpStatus.OK);
 	}
 
-//	@Secured({ HrConstants.ROLE_HR_MANAGEMENT, Constants.ROLE_ADMIN })
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
 	@RequestMapping(value="/searchByPage", method = RequestMethod.POST)
 	public ResponseEntity<Page<CommentDto>> searchByPage(@RequestBody SearchDto searchDto) {
 		Page<CommentDto> page =  this.service.searchByPage(searchDto);

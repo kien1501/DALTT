@@ -43,7 +43,7 @@ public class Order extends BaseObject{
 	private Customer customer;
 	@Column(name = "note")
 	private String note;
-	@OneToMany(mappedBy = "product", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(mappedBy = "order", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
 	private Set<ProductOrder> productOrder;
 	@ManyToOne
 	@JoinColumn(name="seller")

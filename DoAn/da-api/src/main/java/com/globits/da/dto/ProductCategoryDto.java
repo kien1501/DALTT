@@ -1,11 +1,15 @@
 package com.globits.da.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.globits.core.dto.BaseObjectDto;
 import com.globits.da.domain.ProductCategory;
 
 public class ProductCategoryDto extends BaseObjectDto{
 	private String name;
 	private String code;
+	private List<ProductDto> listProduct = new ArrayList<ProductDto>();
 	public String getName() {
 		return name;
 	}
@@ -17,6 +21,12 @@ public class ProductCategoryDto extends BaseObjectDto{
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public List<ProductDto> getListProduct() {
+		return listProduct;
+	}
+	public void setListProduct(List<ProductDto> listProduct) {
+		this.listProduct = listProduct;
 	}
 	public ProductCategoryDto() {
 		super();

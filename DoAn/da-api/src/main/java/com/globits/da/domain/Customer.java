@@ -38,6 +38,8 @@ public class Customer extends BaseObject{
 	private Date birthDate;						//Ngày sinh
 	@Column(name="username")
 	private String username;						//Tên đăng nhập
+	@Column(name="password")
+	private String password;
 	@Column(name="age")
 	private Integer age;//tuổi	
 	@Column(name="customer_type")
@@ -49,6 +51,8 @@ public class Customer extends BaseObject{
 	@Column(name="is_default")
 	private Boolean isDefault;						//mặc định của Person
 	
+	@Column(name="is_create") // có tạo user hay không
+	private Boolean isCreate;
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	@NotFound(action = NotFoundAction.IGNORE)
@@ -141,6 +145,18 @@ public class Customer extends BaseObject{
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Boolean getIsCreate() {
+		return isCreate;
+	}
+	public void setIsCreate(Boolean isCreate) {
+		this.isCreate = isCreate;
 	}
 	
 }

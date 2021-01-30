@@ -30,8 +30,8 @@ public class Event extends BaseObject {
 	private Date endDate;//Ngày kết thúc
 	@Column(name = "is_activate")
 	private Boolean isActivate;//Sự kiện còn hoạt động không
-	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<ProductEvent> productEvent = new HashSet<ProductEvent>();
+	@OneToMany(mappedBy = "event",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<ProductEvent> productEvent;
 	public String getName() {
 		return name;
 	}

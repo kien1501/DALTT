@@ -1,5 +1,6 @@
 package com.globits.da.repository;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -17,5 +18,8 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
 	Long checkCode(String code, UUID id);
 	@Query("select new com.globits.da.dto.ProductCategoryDto(ed) from ProductCategory ed")
 	Page<ProductCategoryDto> getListPage( Pageable pageable);
+	
+	@Query("select new com.globits.da.dto.ProductCategoryDto(ed) from ProductCategory ed")
+	List<ProductCategoryDto> getAllCategory();
 
 }
