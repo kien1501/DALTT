@@ -223,6 +223,7 @@
     "deleteSuccess":"Xoá thành công bản ghi",
     "required": "Trường này không được để trống",
     "isTruePhoneNumer":"Số điện thoại không đúng",
+    "rowperpage":"Số bản ghi mỗi trang",
     "isTrueEmail":"Email không đúng"
   },
   "Download": "Tải về",
