@@ -11,6 +11,15 @@ public class SearchDto {
 	private UUID khoId;
 	private String orderBy;
 	private String text;
+	private UUID productCategory;
+	
+	
+	public UUID getProductCategory() {
+		return productCategory;
+	}
+	public void setProductCategory(UUID productCategory) {
+		this.productCategory = productCategory;
+	}
 	public UUID getId() {
 		return id;
 	}

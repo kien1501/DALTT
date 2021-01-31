@@ -57,8 +57,7 @@ public class RestProductController {
 		Boolean result = sanPhamService.deleteKho(id);
 		return new ResponseEntity<Boolean>(result, HttpStatus.OK);
 	}
-
-@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_ADMIN,HrConstants.ROLE_SUPER_ADMIN })
+ 
 	@RequestMapping(value="/searchByPage", method = RequestMethod.POST)
 	public ResponseEntity<Page<ProductDto>> searchByPage(@RequestBody SearchDto searchDto) {
 		Page<ProductDto> page =  this.sanPhamService.searchByPage(searchDto);

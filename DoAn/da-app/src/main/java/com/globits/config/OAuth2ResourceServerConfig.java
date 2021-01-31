@@ -52,7 +52,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 				.antMatchers("/public/**").permitAll()
 				.antMatchers("/oauth/**").permitAll()
 
-				.antMatchers("/api/**").authenticated()
+				.antMatchers("/api/**").permitAll()
 
 				.anyRequest().authenticated()
 

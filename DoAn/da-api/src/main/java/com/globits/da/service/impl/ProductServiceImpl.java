@@ -41,7 +41,7 @@ import com.globits.da.repository.SupplierRepository;
 import com.globits.da.service.ProductService;
 
 @Service
-public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implements ProductService{
+public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implements ProductService {
 	@Autowired
 	ProductRepository repos;
 	@Autowired
@@ -57,24 +57,24 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 	SupplierRepository supplierRepository;
 	@Autowired
 	ColorRepository colorRepository;
-	
+
 	@Override
 	public Page<ProductDto> getPage(int pageSize, int pageIndex) {
-		Pageable pageable = PageRequest.of(pageIndex-1, pageSize);
+		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
 		return repos.getListPage(pageable);
 	}
 
 	@Override
 	public ProductDto saveOrUpdate(UUID id, ProductDto dto) {
-		if(dto != null ) {
+		if (dto != null) {
 			Product entity = null;
-			if(dto.getId() !=null) {
+			if (dto.getId() != null) {
 				if (dto.getId() != null && !dto.getId().equals(id)) {
 					return null;
 				}
-				entity =  repos.getOne(dto.getId());
+				entity = repos.getOne(dto.getId());
 			}
-			if(entity == null) {
+			if (entity == null) {
 				entity = new Product();
 			}
 			entity.setCode(dto.getCode());
@@ -83,15 +83,15 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 			entity.setCurrentSellingPrice(dto.getPrice());
 			entity.setImageUrl(dto.getImageUrl());
 			entity.setPosts(dto.getPosts());
-			if(dto.getStockKeepingUnit() != null) {
+			if (dto.getStockKeepingUnit() != null) {
 				StockKeepingUnit nv = donViTinhRepository.getOne(dto.getStockKeepingUnit().getId());
 				entity.setStockKeepingUnit(nv);
 			}
-			if(dto.getSupplier() != null) {
+			if (dto.getSupplier() != null) {
 				Supplier nv = supplierRepository.getOne(dto.getSupplier().getId());
 				entity.setSupplier(nv);
 			}
-			if(dto.getProductCategory() != null) {
+			if (dto.getProductCategory() != null) {
 				ProductCategory nv = productCategoryRepository.getOne(dto.getProductCategory().getId());
 				entity.setProductCategory(nv);
 			}
@@ -126,13 +126,13 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 			if (entity != null) {
 				return new ProductDto(entity);
 			}
-			}
-			return null;
+		}
+		return null;
 	}
 
 	@Override
 	public Boolean deleteKho(UUID id) {
-		if(id!=null) {
+		if (id != null) {
 			repos.deleteById(id);
 			return true;
 		}
@@ -142,7 +142,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 	@Override
 	public ProductDto getCertificate(UUID id) {
 		Product entity = repos.getOne(id);
-		if(entity!=null) {
+		if (entity != null) {
 			return new ProductDto(entity);
 		}
 		return null;
@@ -164,9 +164,9 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 		}
 
 		String whereClause = "";
-		
+
 		String orderBy = " ORDER BY entity.createDate DESC";
-		
+
 		String sqlCount = "select count(entity.id) from Product as entity where (1=1)   ";
 		String sql = "select new com.globits.da.dto.ProductDto(entity) from Product as entity where (1=1)  ";
 
@@ -174,7 +174,10 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 			whereClause += " AND ( entity.name LIKE :text or entity.code LIKE :text )";
 		}
 
-		
+		if (dto.getProductCategory() != null) {
+			whereClause += " AND ( entity.productCategory.id = :cate )";
+		}
+
 		sql += whereClause + orderBy;
 		sqlCount += whereClause;
 
@@ -184,6 +187,11 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
 			q.setParameter("text", '%' + dto.getKeyword() + '%');
 			qCount.setParameter("text", '%' + dto.getKeyword() + '%');
+		}
+
+		if (dto.getProductCategory() != null) {
+			q.setParameter("cate", dto.getProductCategory());
+			qCount.setParameter("cate", dto.getProductCategory());
 		}
 		int startPosition = pageIndex * pageSize;
 		q.setFirstResult(startPosition);
@@ -198,10 +206,10 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 
 	@Override
 	public Boolean checkCode(UUID id, String code) {
-		if(code != null && StringUtils.hasText(code)) {
-			Long count = repos.checkCode(code,id);
-				return count != 0l;
-			}
+		if (code != null && StringUtils.hasText(code)) {
+			Long count = repos.checkCode(code, id);
+			return count != 0l;
+		}
 		return null;
 	}
 
