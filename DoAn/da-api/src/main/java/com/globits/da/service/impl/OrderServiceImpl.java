@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import com.globits.core.service.impl.GenericServiceImpl;
 import com.globits.da.domain.Order;
 import com.globits.da.domain.Product;
+import com.globits.da.domain.ProductColor;
 import com.globits.da.domain.ProductOrder;
 import com.globits.da.domain.Staff;
 import com.globits.da.domain.StockKeepingUnit;
@@ -25,6 +26,7 @@ import com.globits.da.dto.OrderDto;
 import com.globits.da.dto.ProductOrderDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.OrderRepository;
+import com.globits.da.repository.ProductColorRepository;
 import com.globits.da.repository.ProductOrderRepository;
 import com.globits.da.repository.ProductRepository;
 import com.globits.da.repository.StaffRepository;
@@ -43,7 +45,8 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, UUID> implements
 	private ProductRepository sanPhamRepository;
 	@Autowired
 	private StockKeepingUnitRepository donViTinhRepository;
-	
+	@Autowired
+	ProductColorRepository productColorRepository;
 	@Override
 	public Page<OrderDto> getPage(int pageSize, int pageIndex) {
 		Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
@@ -93,14 +96,14 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, UUID> implements
 						sanPhamDonHang = new ProductOrder();
 					}
 					
-					Product sanPham = null;
-					if(sanPhamDonHangDto.getProduct() != null && sanPhamDonHangDto.getProduct().getId() != null) {
-						sanPham = sanPhamRepository.getOne(sanPhamDonHangDto.getProduct().getId());
-						if(sanPham == null) {
+					ProductColor productColor = null;
+					if(sanPhamDonHangDto.getProductColor() != null && sanPhamDonHangDto.getProductColor().getId() != null) {
+						productColor = productColorRepository.getOne(sanPhamDonHangDto.getProductColor().getId());
+						if(productColor == null) {
 							return null;
 						}
 					}
-					sanPhamDonHang.setProduct(sanPham);
+					sanPhamDonHang.setProductColor(productColor);
 					sanPhamDonHang.setOrder(entity);;
 					sanPhamDonHang.setProductNumber(sanPhamDonHangDto.getProductNumber());
 					sanPhamDonHang.setUnitPrice(sanPhamDonHangDto.getUnitPrice());

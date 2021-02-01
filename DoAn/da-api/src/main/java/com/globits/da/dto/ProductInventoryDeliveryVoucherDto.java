@@ -3,16 +3,16 @@ package com.globits.da.dto;
 import com.globits.da.domain.ProductInventoryDeliveryVoucher;
 
 public class ProductInventoryDeliveryVoucherDto extends BaseObjectDto{
-	private ProductDto product;
-	private ColorDto color;
+	private ProductColorDto productColor;
 	private InventoryDeliveryVoucherDto inventoryDeliveryVoucher;
 	private Integer productNumber;
 	
-	public ProductDto getProduct() {
-		return product;
+	
+	public ProductColorDto getProductColor() {
+		return productColor;
 	}
-	public void setProduct(ProductDto product) {
-		this.product = product;
+	public void setProductColor(ProductColorDto productColor) {
+		this.productColor = productColor;
 	}
 	public InventoryDeliveryVoucherDto getInventoryDeliveryVoucher() {
 		return inventoryDeliveryVoucher;
@@ -26,23 +26,15 @@ public class ProductInventoryDeliveryVoucherDto extends BaseObjectDto{
 	public void setProductNumber(Integer productNumber) {
 		this.productNumber = productNumber;
 	}
-	public ColorDto getColor() {
-		return color;
-	}
-	public void setColor(ColorDto color) {
-		this.color = color;
-	}
+	
 	public ProductInventoryDeliveryVoucherDto() {
 		super();
 	}
 	public ProductInventoryDeliveryVoucherDto(ProductInventoryDeliveryVoucher p) {
 		if(p != null) {
 			this.setId(p.getId());
-			if(p.getColor() != null) {
-				this.color = new ColorDto(p.getColor());
-			}
-			if(p.getProduct() != null) {
-				this.product = new ProductDto(p.getProduct());
+			if(p.getProductColor() != null) {
+				this.productColor = new ProductColorDto(p.getProductColor());
 			}
 			if(p.getInventoryDeliveryVoucher() != null) {
 				this.inventoryDeliveryVoucher = new InventoryDeliveryVoucherDto(p.getInventoryDeliveryVoucher(),true);

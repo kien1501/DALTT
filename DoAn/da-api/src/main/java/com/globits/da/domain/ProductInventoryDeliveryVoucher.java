@@ -15,22 +15,20 @@ public class ProductInventoryDeliveryVoucher extends BaseObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
-	@ManyToOne
-	@JoinColumn(name="color_id")
-	private Color color;
+	@JoinColumn(name="product_color_id")
+	private ProductColor productColor;
+
 	@ManyToOne
 	@JoinColumn(name="phieu_id")
 	private InventoryDeliveryVoucher inventoryDeliveryVoucher;
 	@Column(name = "product_number")
 	private Integer productNumber;
-	
-	public Product getProduct() {
-		return product;
+
+	public ProductColor getProductColor() {
+		return productColor;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductColor(ProductColor productColor) {
+		this.productColor = productColor;
 	}
 	public InventoryDeliveryVoucher getInventoryDeliveryVoucher() {
 		return inventoryDeliveryVoucher;
@@ -44,10 +42,5 @@ public class ProductInventoryDeliveryVoucher extends BaseObject{
 	public void setProductNumber(Integer productNumber) {
 		this.productNumber = productNumber;
 	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	
 }

@@ -3,18 +3,19 @@ package com.globits.da.dto;
 import com.globits.da.domain.ProductOrder;
 
 public class ProductOrderDto extends BaseObjectDto {
-	private ProductDto product;
+	private ProductColorDto productColor;
 	private OrderDto order;
 	private Integer productNumber;
 	private Double unitPrice;
 	private Double intoMoney;
 	private Double discount;
 	private StockKeepingUnitDto stockKeepingUnit;
-	public ProductDto getProduct() {
-		return product;
+	
+	public ProductColorDto getProductColor() {
+		return productColor;
 	}
-	public void setProduct(ProductDto product) {
-		this.product = product;
+	public void setProductColor(ProductColorDto productColor) {
+		this.productColor = productColor;
 	}
 	public OrderDto getOrder() {
 		return order;
@@ -58,8 +59,8 @@ public class ProductOrderDto extends BaseObjectDto {
 	public ProductOrderDto(ProductOrder entity) {
 		if(entity != null) {
 			this.setId(entity.getId());
-			if(entity.getProduct() != null) {
-				this.setProduct(new ProductDto(entity.getProduct()));
+			if(entity.getProductColor() != null) {
+				this.setProductColor(new ProductColorDto(entity.getProductColor()));
 			}
 			if(entity.getOrder() != null) {
 				this.setOrder(new OrderDto(entity.getOrder()));

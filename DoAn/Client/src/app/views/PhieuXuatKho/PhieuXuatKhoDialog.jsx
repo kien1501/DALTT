@@ -190,7 +190,7 @@ class PhieuXuatKhoDialog extends Component {
     }
     if(productInventoryDeliveryVoucher != null && productInventoryDeliveryVoucher.length > 0){
       productInventoryDeliveryVoucher.forEach(el=>{
-        if(el.product.id == item.product.id){
+        if(el.productColor.id == item.productColor.id){
           // let p ={}
           el.productNumber =e.target.value
         }
@@ -266,7 +266,7 @@ class PhieuXuatKhoDialog extends Component {
                 this.setState({shouldOpenLabTestPropertyEditDialog: true, item: rowData});
               } else if (method === 1) {
                 productInventoryDeliveryVoucher.map((pro, index) => {
-                  if (pro.product.code === rowData.product.code) {
+                  if (pro.productColor.id === rowData.productColor.id) {
                     productInventoryDeliveryVoucher.splice(index, 1);
                   }
                 });
@@ -280,12 +280,17 @@ class PhieuXuatKhoDialog extends Component {
       },
       {
         title: t("Tên sản phẩm"),
-        field: "product.name",
+        field: "productColor.product.name",
         width: "300",
       },
       {
         title: t("Mã sản phẩm"),
-        field: "product.code",
+        field: "productColor.product.code",
+        width: "300",
+      },
+      {
+        title: t("Mã sản phẩm"),
+        field: "productColor.color.name",
         width: "300",
       },
       {

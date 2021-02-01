@@ -4,7 +4,7 @@ import com.globits.da.domain.ProductWarehouse;
 
 public class ProductWarehouseDto extends BaseObjectDto{
 	private WarehouseDto warehouse;
-	private ProductDto product;
+	private ProductColorDto productColor;
 	private Integer productNumber;
 	
 	public WarehouseDto getWarehouse() {
@@ -13,11 +13,13 @@ public class ProductWarehouseDto extends BaseObjectDto{
 	public void setWarehouse(WarehouseDto warehouse) {
 		this.warehouse = warehouse;
 	}
-	public ProductDto getProduct() {
-		return product;
+	
+	
+	public ProductColorDto getProductColor() {
+		return productColor;
 	}
-	public void setProduct(ProductDto product) {
-		this.product = product;
+	public void setProductColor(ProductColorDto productColor) {
+		this.productColor = productColor;
 	}
 	public Integer getProductNumber() {
 		return productNumber;
@@ -35,8 +37,8 @@ public class ProductWarehouseDto extends BaseObjectDto{
 			if(p.getWarehouse() != null) {
 				this.warehouse = new WarehouseDto(p.getWarehouse(),false);
 			}
-			if(p.getProduct() != null) {
-				this.product = new ProductDto(p.getProduct());
+			if(p.getProductColor() != null) {
+				this.productColor = new ProductColorDto(p.getProductColor());
 			}
 		}
 	}
@@ -47,8 +49,8 @@ public class ProductWarehouseDto extends BaseObjectDto{
 			if(p.getWarehouse() != null) {
 				this.warehouse = new WarehouseDto(p.getWarehouse(),false);
 			}
-			if(p.getProduct() != null) {
-				this.product = new ProductDto(p.getProduct(),false);
+			if(p.getProductColor() != null) {
+				this.productColor = new ProductColorDto(p.getProductColor());
 			}
 		}
 	}

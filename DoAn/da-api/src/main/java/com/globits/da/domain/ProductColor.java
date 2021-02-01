@@ -1,9 +1,13 @@
 package com.globits.da.domain;
 
-import javax.persistence.Column;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,7 +24,8 @@ public class ProductColor extends BaseObject{
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;//sản phẩm
-
+	@OneToMany(mappedBy = "productColor", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
+	private Set<ProductWarehouse> productWarehouse;
 	public Color getColor() {
 		return color;
 	}
@@ -35,6 +40,14 @@ public class ProductColor extends BaseObject{
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Set<ProductWarehouse> getProductWarehouse() {
+		return productWarehouse;
+	}
+
+	public void setProductWarehouse(Set<ProductWarehouse> productWarehouse) {
+		this.productWarehouse = productWarehouse;
 	}
 	
 }

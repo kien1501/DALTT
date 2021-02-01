@@ -1,18 +1,14 @@
 package com.globits.da.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.util.Set;
 
-import com.globits.core.domain.BaseObject;
 import com.globits.da.domain.ProductColor;
 import com.globits.da.domain.ProductWarehouse;
 public class ProductColorDto extends BaseObjectDto{
 	private ColorDto color;//màu
 	private ProductDto product;//sản phẩm
-
+	private Set<ProductWarehouseDto> productWarehouse;
+	private Integer soLuongDangCo = 0;
 	public ColorDto getColor() {
 		return color;
 	}
@@ -28,6 +24,22 @@ public class ProductColorDto extends BaseObjectDto{
 	public void setProduct(ProductDto product) {
 		this.product = product;
 	}
+	public Set<ProductWarehouseDto> getProductWarehouse() {
+		return productWarehouse;
+	}
+
+	public void setProductWarehouse(Set<ProductWarehouseDto> productWarehouse) {
+		this.productWarehouse = productWarehouse;
+	}
+
+	public Integer getSoLuongDangCo() {
+		return soLuongDangCo;
+	}
+
+	public void setSoLuongDangCo(Integer soLuongDangCo) {
+		this.soLuongDangCo = soLuongDangCo;
+	}
+
 	public ProductColorDto() {
 		super();
 	}
@@ -40,6 +52,15 @@ public class ProductColorDto extends BaseObjectDto{
 			}
 			if(p.getProduct() != null) {
 				this.product = new ProductDto(p.getProduct());
+			}
+			if(p.getProductWarehouse() != null && p.getProductWarehouse().size() >0) {
+				Integer count = 0;
+				for (ProductWarehouse productWarehouseDto : p.getProductWarehouse()) {
+					if(productWarehouseDto.getProductNumber() != null) {
+						count = productWarehouseDto.getProductNumber() + count;
+					} 
+				}
+				this.soLuongDangCo = count;
 			}
 		}
 	}

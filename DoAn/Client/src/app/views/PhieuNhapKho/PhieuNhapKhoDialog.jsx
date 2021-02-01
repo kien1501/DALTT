@@ -184,13 +184,13 @@ class PhieuNhapKhoDialog extends Component {
     if(productInventoryReceivingVoucher == null ){
       productInventoryReceivingVoucher =[] 
       let p = {}
-      p.product = item;
+      p.productColor = item.productColor;
       p.productNumber = e.target.value
       productInventoryReceivingVoucher.push(p)
     }
     if(productInventoryReceivingVoucher != null && productInventoryReceivingVoucher.length > 0){
       productInventoryReceivingVoucher.forEach(el=>{
-        if(el.product.id == item.product.id){
+        if(el.productColor.id == item.productColor.id){
           // let p ={}
           el.productNumber =e.target.value
         }
@@ -204,13 +204,13 @@ class PhieuNhapKhoDialog extends Component {
     if(productInventoryReceivingVoucher == null ){
       productInventoryReceivingVoucher =[] 
       let p = {}
-      p.product = item;
+      p.productColor = item.productColor;
       p.price = e.target.value
       productInventoryReceivingVoucher.push(p)
     }
     if(productInventoryReceivingVoucher != null && productInventoryReceivingVoucher.length > 0){
       productInventoryReceivingVoucher.forEach(el=>{
-        if(el.product.id == item.product.id){
+        if(el.productColor.id == item.productColor.id){
           // let p ={}
           el.price =e.target.value
         }
@@ -263,7 +263,7 @@ class PhieuNhapKhoDialog extends Component {
                 this.setState({shouldOpenLabTestPropertyEditDialog: true, item: rowData});
               } else if (method === 1) {
                 productInventoryReceivingVoucher.map((pro, index) => {
-                  if (pro.product.code === rowData.product.code) {
+                  if (pro.productColor.id === rowData.productColor.id) {
                     productInventoryReceivingVoucher.splice(index, 1);
                   }
                 });
@@ -277,12 +277,17 @@ class PhieuNhapKhoDialog extends Component {
       },
       {
         title: t("Tên sản phẩm"),
-        field: "product.name",
+        field: "productColor.product.name",
         width: "300",
       },
       {
         title: t("Mã sản phẩm"),
-        field: "product.code",
+        field: "productColor.product.code",
+        width: "300",
+      },
+      {
+        title: t("Màu sản phẩm"),
+        field: "productColor.color.name",
         width: "300",
       },
       {

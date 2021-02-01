@@ -24,8 +24,8 @@ import {
   } from "material-table";
   import { useTranslation, withTranslation, Trans } from "react-i18next";
   import {
-    searchByPage,
-  } from "../SanPham/SanPhamService";
+    searchByPage,searchByPageK
+  } from "./PhieuNhapKhoService";
   import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
   import DialogActions from "@material-ui/core/DialogActions";
   import DialogContent from "@material-ui/core/DialogContent";
@@ -79,13 +79,13 @@ import {
   
     handleCheckboxChange = rowData => {
       let selectedItemList = this.state.selectedItemList;
-      if (selectedItemList.some(selected => selected.product.id === rowData.id)) {
+      if (selectedItemList.some(selected => selected.productColor.id === rowData.id)) {
         selectedItemList = selectedItemList.filter(
-          selected => selected.product.id !== rowData.id
+          selected => selected.productColor.id !== rowData.id
         );
       } else {
         let p = {}
-        p.product = rowData;
+        p.productColor = rowData;
         selectedItemList.push(p);
       }
       this.setState({
@@ -110,7 +110,7 @@ import {
       }
       searchObject.pageIndex = this.state.page + 1;
       searchObject.pageSize = this.state.rowsPerPage;
-      searchByPage(searchObject).then(({ data }) => {
+      searchByPageK(searchObject).then(({ data }) => {
         const selectedData = data.content.map(row =>
           this.state.selectedItemList.find(selected => selected.id === row.id)
             ? { ...row, tableData: { checked: true } }
@@ -137,7 +137,7 @@ import {
       }
       searchObject.pageIndex = this.state.page;
       searchObject.pageSize = this.state.rowsPerPage;
-      searchByPage(searchObject).then(({ data }) => {
+      searchByPageK(searchObject).then(({ data }) => {
         this.setState({
           itemList: [...data.content],
           totalElements: data.totalElements
@@ -235,14 +235,15 @@ import {
           render: rowData => (
             <Checkbox
               checked={this.state.selectedItemList.some(
-                selected => selected.product.id === rowData.id
+                selected => selected.productColor.id === rowData.id
               )}
               onChange={() => this.handleCheckboxChange(rowData)}
             />
           )
         },
-        { title: t("general.name"), field: "name", width: "150" },
-        { title: t("general.code"), field: "code", align: "left", width: "150" },
+        { title: t("Tên sản phẩm"), field: "product.name", width: "150" },
+        { title: t("Mã sản phẩm"), field: "product.code", align: "left", width: "150" },
+        { title: t("Màu"), field: "color.name", align: "left", width: "150" },
         { title: t("Số lượng hiện có"), field: "soLuongDangCo", align: "left", width: "150" }
       ];
       return ( 

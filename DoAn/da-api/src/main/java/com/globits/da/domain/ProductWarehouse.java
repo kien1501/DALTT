@@ -18,8 +18,8 @@ public class ProductWarehouse extends BaseObject{
 	@JoinColumn(name="warehouse_id")
 	private Warehouse warehouse;
 	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	@JoinColumn(name="product_color_id")
+	private ProductColor productColor;
 	@JoinColumn(name="product_number")
 	private Integer productNumber;
 	public Warehouse getWarehouse() {
@@ -28,18 +28,20 @@ public class ProductWarehouse extends BaseObject{
 	public void setWarehouse(Warehouse warehouse) {
 		this.warehouse = warehouse;
 	}
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+	
 	public Integer getProductNumber() {
 		return productNumber;
 	}
 	public void setProductNumber(Integer productNumber) {
 		this.productNumber = productNumber;
 	}
+	public ProductColor getProductColor() {
+		return productColor;
+	}
+	public void setProductColor(ProductColor productColor) {
+		this.productColor = productColor;
+	}
+	
 	
 	
 }

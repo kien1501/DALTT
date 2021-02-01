@@ -13,15 +13,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
-import com.globits.da.domain.ProductWarehouse;
-import com.globits.da.dto.ProductWarehouseDto;
+import com.globits.da.domain.ProductColor;
+import com.globits.da.dto.ProductColorDto;
 import com.globits.da.dto.search.SearchDto;
-import com.globits.da.service.ProductWarehouseService;
+import com.globits.da.service.ProductColorService;
 @Service
-public class ProductWarehouseServiceImpl extends GenericServiceImpl<ProductWarehouse, UUID> implements ProductWarehouseService{
+public class ProductColorServiceImpl extends GenericServiceImpl<ProductColor, UUID> implements ProductColorService{
 
 	@Override
-	public Page<ProductWarehouseDto> searchByPage(SearchDto dto) {
+	public Page<ProductColorDto> searchByPage(SearchDto dto) {
 		if (dto == null) {
 			return null;
 		}
@@ -39,38 +39,32 @@ public class ProductWarehouseServiceImpl extends GenericServiceImpl<ProductWareh
 		
 		String orderBy = " ORDER BY entity.createDate DESC";
 		
-		String sqlCount = "select count(entity.id) from ProductWarehouse as entity where (1=1)   ";
-		String sql = "select new com.globits.da.dto.ProductWarehouseDto(entity) from ProductWarehouse as entity where (1=1)  ";
+		String sqlCount = "select count(entity.id) from ProductColor as entity where (1=1)   ";
+		String sql = "select new com.globits.da.dto.ProductColorDto(entity) from ProductColor as entity where (1=1)  ";
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
-			whereClause += " AND ( entity.productColor.product.name LIKE :text entity.warehouse.name LIKE :text )";
-		}
-		if(dto.getKhoId() != null ) {
-			whereClause += " AND ( entity.warehouse.id =: khoId ) " ;
+			whereClause += " AND ( entity.product.name LIKE :text  )";
 		}
 		
 		sql += whereClause + orderBy;
 		sqlCount += whereClause;
 
-		Query q = manager.createQuery(sql, ProductWarehouseDto.class);
+		Query q = manager.createQuery(sql, ProductColorDto.class);
 		Query qCount = manager.createQuery(sqlCount);
 
 		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
 			q.setParameter("text", '%' + dto.getKeyword() + '%');
 			qCount.setParameter("text", '%' + dto.getKeyword() + '%');
 		}
-		if(dto.getKhoId() != null ) {
-			q.setParameter("khoId", dto.getKhoId());
-			qCount.setParameter("khoId",dto.getKhoId());
-		}
+		
 		int startPosition = pageIndex * pageSize;
 		q.setFirstResult(startPosition);
 		q.setMaxResults(pageSize);
-		List<ProductWarehouseDto> entities = q.getResultList();
+		List<ProductColorDto> entities = q.getResultList();
 		long count = (long) qCount.getSingleResult();
 
 		Pageable pageable = PageRequest.of(pageIndex, pageSize);
-		Page<ProductWarehouseDto> result = new PageImpl<ProductWarehouseDto>(entities, pageable, count);
+		Page<ProductColorDto> result = new PageImpl<ProductColorDto>(entities, pageable, count);
 		return result;
 	}
 

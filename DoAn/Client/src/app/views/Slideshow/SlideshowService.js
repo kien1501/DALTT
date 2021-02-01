@@ -4,7 +4,7 @@ const API_PATH = ConstantList.API_ENPOINT + "/api/slideShow";
 const API_PATH_Category = ConstantList.API_ENPOINT + "/api/category";
 const API_PATH_Color = ConstantList.API_ENPOINT + "/api/color";
 const API_PATH_Agency = ConstantList.API_ENPOINT + "/api/agency";
-const API_PATH_Upload = ConstantList.API_ENPOINT + "/api/upload"
+const API_PATH_Upload = ConstantList.API_ENPOINT + "/public"
 export const searchByPage = (searchObject) => {
   var url = API_PATH + "/searchByPage";
   return axios.post(url, searchObject);
@@ -73,7 +73,7 @@ export const getPageProductAddAgency = (searchObject, agencyID) => {
 };
 
 export const uploadImage = (file, id) => {
-  const url = ConstantList.API_ENPOINT + "/api/upload/image";
+  const url = ConstantList.API_ENPOINT + "/public/image";
   let formData = new FormData();
   formData.append('file', file);
   formData.append('productID', id);

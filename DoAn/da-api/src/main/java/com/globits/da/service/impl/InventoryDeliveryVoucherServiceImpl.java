@@ -27,6 +27,8 @@ import com.globits.da.dto.ProductInventoryDeliveryVoucherDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.ColorRepository;
 import com.globits.da.repository.InventoryDeliveryVoucherRepository;
+import com.globits.da.repository.ProductColorRepository;
+import com.globits.da.repository.ProductImageRepository;
 import com.globits.da.repository.ProductInventoryDeliveryVoucherRepository;
 import com.globits.da.repository.ProductRepository;
 import com.globits.da.repository.ProductWarehouseRepository;
@@ -50,7 +52,8 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 	ProductWarehouseRepository sanPhamKhoRepository;
 	@Autowired
 	ColorRepository colorRepository;
-	
+	@Autowired
+	ProductColorRepository productColorRepository;
 	@Override
 	public Page<InventoryDeliveryVoucherDto> getPage(int pageSize, int pageIndex) {
 		Pageable pageable = PageRequest.of(pageIndex-1, pageSize);
@@ -97,11 +100,11 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 					}
 					
 
-					if(sanPhamPhieuXuatlDto.getProduct() != null) {
-						sanPhamPhieuXuat.setProduct(sanPhamRepository.getOne(sanPhamPhieuXuatlDto.getProduct().getId()));
+					if(sanPhamPhieuXuatlDto.getProductColor() != null) {
+						sanPhamPhieuXuat.setProductColor(productColorRepository.getOne(sanPhamPhieuXuatlDto.getProductColor().getId()));
 						ProductWarehouse sanPhamKho  = null;
 						if(kho != null && kho.getId() != null) {
-							List<ProductWarehouse> listData = sanPhamKhoRepository.getListSanPhamKho(sanPhamPhieuXuatlDto.getProduct().getId(),kho.getId());
+							List<ProductWarehouse> listData = sanPhamKhoRepository.getListSanPhamKho(sanPhamPhieuXuatlDto.getProductColor().getId(),kho.getId());
 							if(listData != null && listData.size() > 0) {
 								 sanPhamKho = listData.get(0);
 							}
@@ -119,12 +122,7 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 					}else {
 						return null;
 					}
-					if(sanPhamPhieuXuat.getColor() != null && sanPhamPhieuXuatlDto.getColor().getId() != null) {
-						Color color = colorRepository.getOne(sanPhamPhieuXuatlDto.getColor().getId());
-						if(color != null && color.getId() != null) {
-							sanPhamPhieuXuat.setColor(color);
-						}
-					}
+					
 					sanPhamPhieuXuat.setProductNumber(sanPhamPhieuXuatlDto.getProductNumber());
 					sanPhamPhieuXuat.setInventoryDeliveryVoucher(entity);
 					listSanPhamPhieuXuat.add(sanPhamPhieuXuat);

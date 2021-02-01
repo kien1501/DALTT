@@ -196,8 +196,7 @@ export default function CreateStaff(props) {
 
           <Tab label={t('messContent')} />
           {/* <Tab label={t("messContent")} /> */}
-          <Tab label={t('fileAttachment')} />
-          {/* <Tab label={t('human_resources_information.working_process')} /> */}
+          {/* <Tab label={t('fileAttachment')} /> */}
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} color="#ffffff">
@@ -217,12 +216,12 @@ export default function CreateStaff(props) {
           item={props.item ? props.item : {}} />
       </TabPanel> */}
 
-      <TabPanel value={value} index={1} color="#ffffff">
+      {/* <TabPanel value={value} index={1} color="#ffffff">
         <IntroduceTheProgramDialogAttachment t={t}
           useStyles={useStyles}
           isRoleAdmin={props.isRoleAdmin}
           item={props.item ? props.item : {}} />
-      </TabPanel>
+      </TabPanel> */}
     </div>
   )
 }

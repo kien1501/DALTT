@@ -80,13 +80,13 @@ import {
     handleCheckboxChange = rowData => {
       console.log(rowData)
       let selectedItemList = this.state.selectedItemList;
-      if (selectedItemList.some(selected => selected.product.id === rowData.product.id)) {
+      if (selectedItemList.some(selected => selected.productColor.id === rowData.productColor.id)) {
         selectedItemList = selectedItemList.filter(
-          selected => selected.product.id !== rowData.product.id
+          selected => selected.productColor.id !== rowData.productColor.id
         );
       } else {
         let p = {}
-        p.product = rowData.product;
+        p.productColor = rowData.productColor;
         selectedItemList.push(p);
       }
       this.setState({
@@ -238,17 +238,18 @@ import {
           render: rowData => (
             <Checkbox
               checked={this.state.selectedItemList.some(
-                selected => selected.product.id === rowData.product.id
+                selected => selected.productColor.id === rowData.productColor.id
               )}
               onChange={() => this.handleCheckboxChange(rowData)}
             />
           )
         },
-        { title: t("general.name"), field: "product.name", width: "150" },
-        { title: t("general.code"), field: "product.code", align: "left", width: "150" },
+        { title: t("general.name"), field: "productColor.product.name", width: "150" },
+        { title: t("general.code"), field: "productColor.product.code", align: "left", width: "150" },
+        { title: t("Màu"), field: "productColor.color.name", align: "left", width: "150" },
         { title: t("Tên kho"), field: "warehouse.name", align: "left", width: "150" },
         { title: t("Số lượng trong kho"), field: "productNumber", align: "left", width: "150" },
-        { title: t("Số lượng hiện có"), field: "product.soLuongDangCo", align: "left", width: "150" }
+        { title: t("Số lượng hiện có"), field: "productColor.soLuongDangCo", align: "left", width: "150" }
       ];
       return ( 
          <Dialog 

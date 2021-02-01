@@ -2,7 +2,7 @@ import axios from "axios";
 import ConstantList from "../../appConfig";
 
 const API_PATH = ConstantList.API_ENPOINT + "/api/phieunhapkho/";
-const API_PATHKHO = ConstantList.API_ENPOINT + "/api/sanphamkho/";
+const API_PATHKHO = ConstantList.API_ENPOINT + "/api/productColor/";
 export const searchByPage = (searchObject) => {
   return axios.post(API_PATH +  "searchByPage", searchObject);
 };

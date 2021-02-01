@@ -345,7 +345,7 @@ class Product extends Component {
     return (
       <div className="m-sm-30">
         <Helmet>
-          <title>Offer Pro | {TitlePage}</title>
+          <title> {TitlePage} | {t("web_site")}</title>
         </Helmet>
         <div className="mb-sm-30">
           <Breadcrumb routeSegments={[{ name: t("Danh sách ảnh") }]} />

@@ -94,7 +94,7 @@ class SlideShowDialog extends Component {
     
             for (var i = 0; i < this.state.file.length; i++) { 
               console.log("WWWWWWWWWWWWWW)");
-              const url = ConstantList.API_ENPOINT + "/api/upload/imageSlide";
+              const url = ConstantList.API_ENPOINT + "/public/imageSlide";
               let formData = new FormData();
               formData.append('file', this.state.file[i]);
               formData.append('slideShow', res.data.id);

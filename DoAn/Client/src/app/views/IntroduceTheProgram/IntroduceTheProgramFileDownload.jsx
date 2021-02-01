@@ -329,51 +329,7 @@ class IntroduceTheProgramFileDownload extends React.Component {
 
                 </Grid>
               </Grid>
-              <Grid item md={12} sm={12} xs={12} className="mt-16">
-                <h5 style={{textAlign: 'left', width: '100%', color: '#7467ef !important'}}>Tài liệu đính kèm</h5>
-                <MaterialTable
-                  data={
-                    this.props.item.documents ? this.props.item.documents : []
-                  }
-                  columns={columnsAssetFile}
-                  options={{
-                    toolbar: false,
-                    selection: false,
-                    actionsColumnIndex: -1,
-                    paging: false,
-                    search: false,
-                    padding: "dense",
-                    rowStyle: (rowData) => ({
-                      backgroundColor:
-                        rowData.tableData.id % 2 === 1 ? "#EEE" : "#FFF",
-                    }),
-                    headerStyle: {
-                      backgroundColor: "#358600",
-                      color: "#fff",
-                    },
-                    // maxBodyHeight: "190px",
-                    // minBodyHeight: "190px",
-                    height: "auto",
-                  }}
-                  components={{
-                    Toolbar: (props) => (
-                      <div style={{ width: "100%" }}>
-                        <MTableToolbar {...props} />
-                      </div>
-                    ),
-                  }}
-                  onSelectionChange={(rows) => {
-                    this.data = rows;
-                  }}
-                  localization={{
-                    body: {
-                      emptyDataSourceMessage: `${t(
-                        "general.emptyDataMessageTable"
-                      )}`,
-                    },
-                  }}
-                />
-              </Grid>
+              
               
             </Grid>
           </DialogContent>

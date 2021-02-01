@@ -39,8 +39,8 @@ public class Product extends BaseObject{
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="supplier_id")
 	private Supplier supplier;
-	@OneToMany(mappedBy = "product", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
-	private Set<ProductWarehouse> productWarehouse;
+//	@OneToMany(mappedBy = "product", cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
+//	private Set<ProductWarehouse> productWarehouse;
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<ProductImage> productImage;
 	@Column(name="image_url")
@@ -48,7 +48,7 @@ public class Product extends BaseObject{
 	@Column(name="posts", columnDefinition = "LONGTEXT")
 	private String posts;
 	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<ProductColor> productColors = new HashSet<ProductColor>();;
+	private Set<ProductColor> productColors = new HashSet<ProductColor>();
 	
 	public String getName() {
 		return name;
@@ -75,12 +75,12 @@ public class Product extends BaseObject{
 		this.stockKeepingUnit = stockKeepingUnit;
 	}
 	
-	public Set<ProductWarehouse> getProductWarehouse() {
-		return productWarehouse;
-	}
-	public void setProductWarehouse(Set<ProductWarehouse> productWarehouse) {
-		this.productWarehouse = productWarehouse;
-	}
+//	public Set<ProductWarehouse> getProductWarehouse() {
+//		return productWarehouse;
+//	}
+//	public void setProductWarehouse(Set<ProductWarehouse> productWarehouse) {
+//		this.productWarehouse = productWarehouse;
+//	}
 	public String getImageUrl() {
 		return imageUrl;
 	}

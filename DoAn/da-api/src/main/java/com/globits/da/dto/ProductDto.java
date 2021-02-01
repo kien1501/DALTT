@@ -20,7 +20,6 @@ public class ProductDto extends BaseObjectDto{
 	private Double currentSellingPrice;
 	private StockKeepingUnitDto stockKeepingUnit;
 	private Integer soLuongDangCo;
-	private Set<ProductWarehouseDto> productWarehouse;
 	private ProductCategoryDto productCategory;
 	private SupplierDto supplier;
 	private String imageUrl;//Đường dẫn đến File ảnh tiêu đề bài báo (nếu có)
@@ -54,12 +53,6 @@ public class ProductDto extends BaseObjectDto{
 		this.stockKeepingUnit = stockKeepingUnit;
 	}
 	
-	public Set<ProductWarehouseDto> getProductWarehouse() {
-		return productWarehouse;
-	}
-	public void setProductWarehouse(Set<ProductWarehouseDto> productWarehouse) {
-		this.productWarehouse = productWarehouse;
-	}
 	public Integer getSoLuongDangCo() {
 		return soLuongDangCo;
 	}
@@ -129,15 +122,7 @@ public class ProductDto extends BaseObjectDto{
 		if(e.getProductCategory()!= null) {
 			this.productCategory = new ProductCategoryDto(e.getProductCategory());
 		}
-		if (e.getProductWarehouse()!= null) {
-			Integer count =  0;
-			this.productWarehouse = new HashSet<ProductWarehouseDto>();
-			for (ProductWarehouse sanPhamPhieuNhapDto : e.getProductWarehouse()) {
-				count = count + sanPhamPhieuNhapDto.getProductNumber();
-				this.productWarehouse.add(new ProductWarehouseDto(sanPhamPhieuNhapDto,false));
-			}
-			this.soLuongDangCo = count;
-		}
+		
 		this.images = new ArrayList<ImageDto>();
 		if (e.getProductImage() != null && e.getProductImage().size() > 0) {
 			for (ProductImage productCategory : e.getProductImage()) {

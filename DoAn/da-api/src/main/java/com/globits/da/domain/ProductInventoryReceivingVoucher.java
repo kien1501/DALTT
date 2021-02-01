@@ -15,12 +15,9 @@ public class ProductInventoryReceivingVoucher extends BaseObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	@JoinColumn(name="product_color_id")
+	private ProductColor productColor;
 	
-	@ManyToOne
-	@JoinColumn(name="color_id")
-	private Color color;
 	
 	@ManyToOne
 	@JoinColumn(name="warehouse_id")
@@ -38,12 +35,18 @@ public class ProductInventoryReceivingVoucher extends BaseObject{
 	
 	@Column(name="voucher_type")
 	private int voucherType;//1 = nhập kho, -1 = xuất kho
-	
-	public Product getProduct() {
-		return product;
+
+	public ProductColor getProductColor() {
+		return productColor;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductColor(ProductColor productColor) {
+		this.productColor = productColor;
+	}
+	public int getVoucherType() {
+		return voucherType;
+	}
+	public void setVoucherType(int voucherType) {
+		this.voucherType = voucherType;
 	}
 	public Warehouse getWarehouse() {
 		return warehouse;
@@ -71,12 +74,7 @@ public class ProductInventoryReceivingVoucher extends BaseObject{
 	public void setInventoryReceivingVoucher(InventoryReceivingVoucher inventoryReceivingVoucher) {
 		this.inventoryReceivingVoucher = inventoryReceivingVoucher;
 	}
-	public Color getColor() {
-		return color;
-	}
-	public void setColor(Color color) {
-		this.color = color;
-	}
+
 	
 	
 }

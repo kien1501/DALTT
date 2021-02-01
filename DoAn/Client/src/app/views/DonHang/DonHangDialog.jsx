@@ -117,7 +117,8 @@ class DonHangDialog extends Component {
   listType = [
     { id: 1, name: 'Xác nhận' },
     { id: 2, name: 'Chờ chuyển' },
-    { id: 3, name: 'Đã chuyển' }
+    { id: 3, name: 'Đã chuyển' },
+    { id: 4, name: 'Hoàn tiền' }
   ]
   handleDialogClose = () => {
     this.setState({ shouldOpenNotificationPopup: false,
@@ -227,7 +228,7 @@ class DonHangDialog extends Component {
                 this.setState({shouldOpenLabTestPropertyEditDialog: true, item: rowData});
               } else if (method === 1) {
                 productOrder.map((pro, index) => {
-                  if (pro.product.code === rowData.product.code) {
+                  if (pro.unitPrice.id === rowData.unitPrice.id) {
                     productOrder.splice(index, 1);
                   }
                 });
@@ -241,12 +242,17 @@ class DonHangDialog extends Component {
       },
       {
         title: t("Tên sản phẩm"),
-        field: "product.name",
+        field: "productColor.product.name",
         width: "300",
       },
       {
         title: t("Mã sản phẩm"),
-        field: "product.code",
+        field: "productColor.product.code",
+        width: "300",
+      },
+      {
+        title: t("Màu sản phẩm"),
+        field: "productColor.product.code",
         width: "300",
       },
       {
@@ -255,8 +261,13 @@ class DonHangDialog extends Component {
         width: "300",
       },
       {
-        title: t("Số lượng"),
-        field: "productNumber",
+        title: t("Đơn giá"),
+        field: "unitPrice",
+        width: "300",
+      },
+      {
+        title: t("Thành tiền"),
+        field: "intoMoney",
         width: "300",
       },
       

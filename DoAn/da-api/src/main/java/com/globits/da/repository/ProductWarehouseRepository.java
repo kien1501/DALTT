@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.globits.da.domain.ProductWarehouse;
 @Repository
 public interface ProductWarehouseRepository extends JpaRepository<ProductWarehouse, UUID>{
-	@Query("select entity from ProductWarehouse entity where entity.product.id =?1 and entity.warehouse.id =?2 ")
+	@Query("select entity from ProductWarehouse entity where entity.productColor.id =?1 and entity.warehouse.id =?2 ")
 	List<ProductWarehouse> getListSanPhamKho(UUID sanPhamID, UUID khoID);
 
 }

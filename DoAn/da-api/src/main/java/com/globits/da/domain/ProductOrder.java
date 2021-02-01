@@ -16,8 +16,8 @@ public class ProductOrder extends BaseObject{
 	 */
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
-	@JoinColumn(name="product_id")
-	private Product product;
+	@JoinColumn(name="product_color_id")
+	private ProductColor productColor;
 	@ManyToOne
 	@JoinColumn(name="order_id")
 	private Order order;
@@ -32,11 +32,12 @@ public class ProductOrder extends BaseObject{
 	@ManyToOne
 	@JoinColumn(name="stock_keeping_unit_id")
 	private StockKeepingUnit stockKeepingUnit;
-	public Product getProduct() {
-		return product;
+	
+	public ProductColor getProductColor() {
+		return productColor;
 	}
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductColor(ProductColor productColor) {
+		this.productColor = productColor;
 	}
 	public Order getOrder() {
 		return order;
