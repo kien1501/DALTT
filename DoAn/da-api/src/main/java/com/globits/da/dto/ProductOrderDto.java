@@ -63,7 +63,7 @@ public class ProductOrderDto extends BaseObjectDto {
 				this.setProductColor(new ProductColorDto(entity.getProductColor()));
 			}
 			if(entity.getOrder() != null) {
-				this.setOrder(new OrderDto(entity.getOrder()));
+				this.setOrder(new OrderDto(entity.getOrder(),false));
 			}
 			this.setProductNumber(entity.getProductNumber());
 			this.setUnitPrice(entity.getUnitPrice());

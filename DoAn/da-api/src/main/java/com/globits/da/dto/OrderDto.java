@@ -125,4 +125,24 @@ public class OrderDto extends BaseObjectDto {
 			}
 		}
 	}
+	public OrderDto(Order entity,Boolean simple) {
+		if(entity != null) {
+			this.setId(entity.getId());
+			this.setName(entity.getName());
+			this.setCode(entity.getCode());
+			this.setOrderDate(entity.getOrderDate());
+			this.setDeliveryDate(entity.getDeliveryDate());
+			this.setTotalPrice(entity.getTotalPrice());
+			this.setDiscount(entity.getDiscount());
+			this.setIntoMoney(entity.getIntoMoney());
+			this.setStatus(entity.getStatus());
+			if(entity.getSeller() != null) {
+				this.setSeller(new StaffDto(entity.getSeller()));
+			}
+			if(entity.getCustomer() != null) {
+				this.setCustomer(new CustomerDto(entity.getCustomer()));
+			}
+			
+		}
+	}
 }
