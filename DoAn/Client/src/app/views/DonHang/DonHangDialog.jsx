@@ -258,7 +258,7 @@ class DonHangDialog extends Component {
       {
         title: t("Số lượng"),
         field: "productNumber",
-        width: "300",
+        width: "200",
       },
       {
         title: t("Đơn giá"),
@@ -268,7 +268,7 @@ class DonHangDialog extends Component {
       {
         title: t("Thành tiền"),
         field: "intoMoney",
-        width: "300",
+        width: "400",
       },
       
     ];
