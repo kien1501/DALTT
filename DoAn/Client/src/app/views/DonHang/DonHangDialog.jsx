@@ -252,7 +252,7 @@ class DonHangDialog extends Component {
       },
       {
         title: t("Màu sản phẩm"),
-        field: "productColor.product.code",
+        field: "productColor.color.name",
         width: "300",
       },
       {
@@ -262,13 +262,16 @@ class DonHangDialog extends Component {
       },
       {
         title: t("Đơn giá"),
-        field: "unitPrice",
+        field: "productColor.product.currentSellingPrice",
         width: "300",
       },
       {
         title: t("Thành tiền"),
         field: "intoMoney",
         width: "300",
+        render: (rowData) => (
+          <>{rowData.productNumber *rowData.productColor.product.currentSellingPrice } VND</>
+        )
       },
       
     ];
