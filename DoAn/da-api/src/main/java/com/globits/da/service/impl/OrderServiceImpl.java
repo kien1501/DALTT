@@ -1,5 +1,6 @@
 package com.globits.da.service.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,6 @@ import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
 import com.globits.da.domain.Order;
-import com.globits.da.domain.Product;
 import com.globits.da.domain.ProductColor;
 import com.globits.da.domain.ProductOrder;
 import com.globits.da.domain.Staff;
@@ -68,8 +68,13 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, UUID> implements
 			}
 			entity.setName(dto.getName());
 			entity.setCode(dto.getCode());
-			entity.setOrderDate(dto.getOrderDate());
-			entity.setDeliveryDate(dto.getDeliveryDate());
+			if(dto.getStatus().equals(2)) {
+				entity.setOrderDate(new Date());
+			}
+			if(dto.getStatus().equals(3)) {
+				entity.setDeliveryDate(dto.getDeliveryDate());
+			}
+			
 			entity.setTotalPrice(dto.getTotalPrice());
 			entity.setDiscount(dto.getDiscount());
 			entity.setIntoMoney(dto.getIntoMoney());
@@ -109,6 +114,7 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, UUID> implements
 					sanPhamDonHang.setUnitPrice(sanPhamDonHangDto.getUnitPrice());
 					sanPhamDonHang.setIntoMoney(sanPhamDonHangDto.getIntoMoney());
 					sanPhamDonHang.setDiscount(sanPhamDonHangDto.getDiscount());
+					
 					StockKeepingUnit donViTinh = null;
 					if(sanPhamDonHangDto.getStockKeepingUnit() != null && sanPhamDonHangDto.getStockKeepingUnit().getId() != null) {
 						donViTinh = donViTinhRepository.getOne(sanPhamDonHangDto.getStockKeepingUnit().getId());
