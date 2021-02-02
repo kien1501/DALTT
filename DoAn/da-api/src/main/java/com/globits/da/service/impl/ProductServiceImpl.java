@@ -80,7 +80,7 @@ public class ProductServiceImpl extends GenericServiceImpl<Product, UUID> implem
 			entity.setCode(dto.getCode());
 			entity.setName(dto.getName());
 			entity.setPrice(dto.getPrice());
-			entity.setCurrentSellingPrice(dto.getPrice());
+			entity.setCurrentSellingPrice(dto.getCurrentSellingPrice());
 			entity.setImageUrl(dto.getImageUrl());
 			entity.setPosts(dto.getPosts());
 			if (dto.getStockKeepingUnit() != null) {

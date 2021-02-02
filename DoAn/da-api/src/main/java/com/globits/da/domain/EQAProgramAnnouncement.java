@@ -31,6 +31,9 @@ public class EQAProgramAnnouncement extends BaseObject {
 	
 	@Column(name="active")
 	private Boolean active;
+	
+	@Column(name="image_url")
+	private String imageUrl;//Đường dẫn đến File ảnh tiêu đề bài báo (nếu có)
 
 	@OneToMany(mappedBy ="eQAProgramAnnouncement", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<EQAProgramAnnouncementFileAttachment> documents;
@@ -81,6 +84,14 @@ public class EQAProgramAnnouncement extends BaseObject {
 
 	public void setDocuments(Set<EQAProgramAnnouncementFileAttachment> documents) {
 		this.documents = documents;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 }

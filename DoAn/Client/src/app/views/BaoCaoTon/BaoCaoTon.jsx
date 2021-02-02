@@ -371,6 +371,11 @@ class BaoCaoTon extends React.Component {
         width: "150",
       },
       {
+        title: t("Màu"),
+        field: "mau",
+        width: "150",
+      },
+      {
         title: t("Kho"),
         field: "tenKho",
         width: "150",

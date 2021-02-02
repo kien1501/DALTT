@@ -338,7 +338,7 @@ class AgentDialog extends Component {
           style={{ cursor: "move", paddingBottom: "0px" }}
           id="draggable-dialog-title"
         >
-          <h4 className="">{id ? t("general.update") : t("general.addNew")}</h4>
+          <h4 className="">{id ? t("Cập nhật thông tin sản phẩm") : t("Thêm mới sản phẩm")}</h4>
         </DialogTitle>
 
         <ValidatorForm ref="form" onSubmit={this.handleFormSubmit}>

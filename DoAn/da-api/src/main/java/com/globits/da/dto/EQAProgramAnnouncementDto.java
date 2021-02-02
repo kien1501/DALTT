@@ -16,7 +16,7 @@ public class EQAProgramAnnouncementDto extends BaseObjectDto{
 	private String code;
 	private Date createDateTime;
 	private Set<EQAProgramAnnouncementFileAttachmentDto> documents;
-	
+	private String imageUrl;//Đường dẫn đến File ảnh tiêu đề bài báo (nếu có)
 	public String getName() {
 		return name;
 	}
@@ -60,6 +60,12 @@ public class EQAProgramAnnouncementDto extends BaseObjectDto{
 	public void setDocuments(Set<EQAProgramAnnouncementFileAttachmentDto> documents) {
 		this.documents = documents;
 	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	public EQAProgramAnnouncementDto() {
 		
 	}
@@ -70,6 +76,7 @@ public class EQAProgramAnnouncementDto extends BaseObjectDto{
 		this.messageContent = entity.getMessageContent();
 		this.name = entity.getName();
 		this.code = entity.getCode();
+		this.imageUrl = entity.getImageUrl();
 		this.active = entity.getActive();
 		if(entity.getDocuments() != null  && entity.getDocuments().size() > 0) {
 			this.documents = new HashSet<EQAProgramAnnouncementFileAttachmentDto>();
@@ -87,6 +94,7 @@ public class EQAProgramAnnouncementDto extends BaseObjectDto{
 		this.name = entity.getName();
 		this.code = entity.getCode();
 		this.active = entity.getActive();
+		this.imageUrl = entity.getImageUrl();
 	}
 
 }

@@ -7,6 +7,7 @@ public class ReportDto {
 	private UUID sanPhamId;
 	private String tenSP;
 	private String maSP;
+	private String mau;
 	private UUID khoId;
 	private String tenKho;
 	private Integer soLuong;
@@ -82,6 +83,12 @@ public class ReportDto {
 	}
 	public void setTongTienBan(Double tongTienBan) {
 		this.tongTienBan = tongTienBan;
+	}
+	public String getMau() {
+		return mau;
+	}
+	public void setMau(String mau) {
+		this.mau = mau;
 	}
 	
 }

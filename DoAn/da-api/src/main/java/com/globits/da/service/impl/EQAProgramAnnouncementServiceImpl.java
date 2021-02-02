@@ -149,6 +149,7 @@ public class EQAProgramAnnouncementServiceImpl extends GenericServiceImpl<EQAPro
 			entity.setCode(dto.getCode());
 			entity.setContent(dto.getContent());
 			entity.setMessageContent(dto.getMessageContent());
+			entity.setImageUrl(dto.getImageUrl());
 			if(dto.getActive() != null && dto.getActive() ==  true) {
 				List<EQAProgramAnnouncement> list = eQAProgramAnnouncementRepository.findAll();
 				for(EQAProgramAnnouncement item : list) {

@@ -96,7 +96,7 @@ import {
   }
   class NhaCungCap extends React.Component {
     state = {
-      rowsPerPage: 5,
+      rowsPerPage: 10,
       page: 0,
       data: [],
       totalElements: 0,

@@ -272,6 +272,7 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 				bc.setKhoId(spDto.getInventoryDeliveryVoucher().getWarehouse().getId());
 				bc.setTenKho(spDto.getInventoryDeliveryVoucher().getWarehouse().getName());
 				bc.setSoLuong(0);
+				bc.setMau(spDto.getProductColor().getColor().getName());
 				if (spDto.getProductNumber() != null) {
 					bc.setSoLuong(spDto.getProductNumber());
 				}
