@@ -404,7 +404,7 @@ class AgentDialog extends Component {
                           }
                         />
                       </Card>
-                      <TextValidator
+                      {/* <TextValidator
                         size="small"
                         className="w-100 mb-16 mt-16"
                         label={t(
@@ -416,7 +416,7 @@ class AgentDialog extends Component {
                         value={noteAvatarImage}
                         variant="outlined"
                         size="small"
-                      />
+                      /> */}
                     </span>
                   )}
                 </Grid>
