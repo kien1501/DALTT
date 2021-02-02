@@ -289,6 +289,7 @@ public class InventoryReceivingVoucherServiceImpl extends GenericServiceImpl< In
 				bc.setKhoId(spDto.getWarehouse().getId());
 				bc.setTenKho(spDto.getWarehouse().getName());
 				bc.setTongTienNhap(0.0);
+				bc.setMau(spDto.getProductColor().getColor().getName());
 				if(spDto.getPrice() != null) {
 					bc.setTongTienNhap(spDto.getPrice());
 				}
