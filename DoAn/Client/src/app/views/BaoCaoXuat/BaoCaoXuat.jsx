@@ -10,6 +10,7 @@ import {
   Input,
   InputAdornment,
 } from "@material-ui/core";
+import moment from "moment";
 import MaterialTable, {
   MTableToolbar,
   Chip,
@@ -24,18 +25,25 @@ import { Helmet } from "react-helmet";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import Tooltip from "@material-ui/core/Tooltip";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import AsynchronousAutocomplete from "../utilities/AsynchronousAutocomplete";
 import { Link } from "react-router-dom";
+import { searchByPage as searchStore } from "../Kho/KhoService";
 import NotificationPopup from "../Component/NotificationPopup/NotificationPopup";
+// import { saveAs } from 'file-saver';
 import { isThisSecond } from "date-fns/esm";
-import UrbanAreaDialog from "./NhanVienDialog";
+// import PhieuNhapKhoDialog from "./PhieuNhapKhoDialog";
+import { searchByPage, exportToExcel } from "./BaoCaoXuatService";
 import {
-  getAllUrbanArea,
-  getUrbanAreaById,
-  deleteUrbanArea,
-  searchByPage,
-} from "./NhanVienService";
+  MuiPickersUtilsProvider,
+  DateTimePicker,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 toast.configure({
   autoClose: 2000,
   draggable: false,
@@ -95,7 +103,7 @@ function MaterialButton(props) {
   );
 }
 
-class UrbanAreaTable extends React.Component {
+class BaoCaoXuat extends React.Component {
   state = {
     keyword: "",
     rowsPerPage: 10,
@@ -111,12 +119,16 @@ class UrbanAreaTable extends React.Component {
     shouldOpenConfirmationDeleteListDialog: false,
     shouldOpenNotificationPopup: false,
     Notification: "",
+    toDate: moment().endOf("month"),
+    fromDate: moment().startOf("month"),
+    kho: null,
+    khoId: null
   };
   numSelected = 0;
   rowCount = 0;
 
   handleTextChange = (event) => {
-    this.setState({ keyword: event.target.value }, function () { });
+    this.setState({ keyword: event.target.value }, function () {});
   };
 
   handleKeyDownEnterSearch = (e) => {
@@ -147,11 +159,14 @@ class UrbanAreaTable extends React.Component {
       searchObject.keyword = this.state.keyword;
       searchObject.pageIndex = this.state.page + 1;
       searchObject.pageSize = this.state.rowsPerPage;
+      searchObject.fromDate = this.state.fromDate
+        ? this.state.fromDate
+        : new Date();
+      searchObject.toDate = this.state.toDate ? this.state.toDate : new Date();
       searchByPage(searchObject)
         .then((res) => {
           this.setState({
-            itemList: [...res.data.content],
-            totalElements: res.data.totalElements,
+            itemList: [...res.data],
           });
         })
         .catch((err) => {
@@ -160,10 +175,9 @@ class UrbanAreaTable extends React.Component {
     });
   }
   checkData = () => {
-    let { t } = this.props
+    let { t } = this.props;
     if (!this.data || this.data.length === 0) {
       toast.warning(t("general.noti_check_data"));
-
     } else if (this.data.length === this.state.itemList.length) {
       this.setState({ shouldOpenConfirmationDeleteAllDialog: true });
     } else {
@@ -173,14 +187,19 @@ class UrbanAreaTable extends React.Component {
 
   updatePageData = () => {
     var searchObject = {};
+    if (this.state.khoId) {
+      searchObject.khoId = this.state.khoId;
+    }
     searchObject.keyword = this.state.keyword;
     searchObject.pageIndex = this.state.page + 1;
     searchObject.pageSize = this.state.rowsPerPage;
-
+    searchObject.fromDate = this.state.fromDate
+      ? this.state.fromDate
+      : new Date();
+    searchObject.toDate = this.state.toDate ? this.state.toDate : new Date();
     searchByPage(searchObject).then((res) => {
       this.setState({
-        itemList: [...res.data.content],
-        totalElements: res.data.totalElements,
+        itemList: [...res.data],
       });
     });
   };
@@ -214,38 +233,6 @@ class UrbanAreaTable extends React.Component {
       id,
       shouldOpenConfirmationDialog: true,
     });
-  };
-
-  handleEditMaintainRequestStatus = (item) => {
-    getUrbanAreaById(item.id).then((result) => {
-      this.setState({
-        item: result.data,
-        shouldOpenEditorDialog: true,
-      });
-    });
-  };
-
-  handleConfirmationResponse = () => {
-    var { t } = this.props;
-    if (
-      this.state.itemList.length % this.state.rowsPerPage === 1 &&
-      this.state.itemList.length > 1 &&
-      this.state.id === this.state.itemList[this.state.itemList.length - 1].id
-    ) {
-      var page = this.state.page - 1;
-      this.setState({
-        page: page,
-      });
-    }
-    deleteUrbanArea(this.state.id)
-      .then((res) => {
-        toast.success("Xóa thành công nhân viên");
-        this.handleDialogClose();
-        this.updatePageData();
-      })
-      .catch(() => {
-        toast.warning("Có lỗi xảy ra khi xóa thông tin nhân viên");
-      });
   };
 
   componentDidMount() {
@@ -302,26 +289,6 @@ class UrbanAreaTable extends React.Component {
     });
   };
 
-  async handleDeleteList(list) {
-    let listAlert = [];
-    var { t } = this.props;
-    for (var i = 0; i < list.length; i++) {
-      try {
-        await deleteUrbanArea(list[i].id);
-      } catch (error) {
-        listAlert.push(list[i].name);
-      }
-    }
-    this.handleDialogClose();
-    if (listAlert.length === list.length) {
-      toast.warning(t("urbanArea.use_all"));
-      // alert("Các trạng thái đều đã sử dụng");
-    } else if (listAlert.length > 0) {
-      toast.warning(t("urbanArea.deleted_unused"));
-      // alert("Đã xoá các trạng thái chưa sử dụng");
-    }
-  }
-
   handleDeleteAll = (event) => {
     //alert(this.data.length);
     this.handleDeleteList(this.data)
@@ -334,7 +301,48 @@ class UrbanAreaTable extends React.Component {
         console.log("loi");
       });
   };
-
+  handleChangeDate = (date, name) => {
+    this.setState({ [name]: date }, () => {
+      this.search();
+    });
+  };
+  exportToExcel = () => {
+    const { t } = this.props;
+    var searchObject = {};
+    searchObject.keyword = this.state.keyword;
+    searchObject.pageIndex = this.state.page + 1;
+    searchObject.pageSize = this.state.rowsPerPage;
+    searchObject.fromDate = this.state.fromDate
+      ? this.state.fromDate
+      : new Date();
+    searchObject.toDate = this.state.toDate ? this.state.toDate : new Date();
+    if (this.state.itemList == null || this.state.itemList.length == 0) {
+      toast.warn("Không có dữ liệu");
+      return;
+    }
+    exportToExcel(searchObject)
+      .then((res) => {
+        let blob = new Blob([res.data], {
+          type:
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+        saveAs(blob, "BaoCaoXuat.xlsx");
+      })
+      .catch((err) => {
+        // console.log(err)
+      });
+  };
+  selectKho = (item) => {
+    if (item && Object.keys(item).length > 0) {
+      this.setState({ khoId: item.id, kho: item }, () => {
+        this.updatePageData();
+      });
+    } else {
+      this.setState({ khoId: null, kho: null }, () => {
+        this.updatePageData();
+      });
+    }
+  };
   render() {
     const { t, i18n } = this.props;
     let {
@@ -348,72 +356,35 @@ class UrbanAreaTable extends React.Component {
       shouldOpenEditorDialog,
       shouldOpenConfirmationDeleteAllDialog,
       shouldOpenNotificationPopup,
+      kho
     } = this.state;
-    let TitlePage = t("Nhân Viên");
-
+    let TitlePage = t("Báo cáo xuất kho");
+    let SearchObject = { pageIndex: 1, pageSize: 100000 };
     let columns = [
       {
-        title: t("general.action"),
-        field: "custom",
-        align: "left",
-        width: "120px",
-        headerStyle: {
-          padding: "0px",
-        },
-        cellStyle: {
-          padding: "0px",
-        },
-        render: (rowData) => (
-          <MaterialButton
-            item={rowData}
-            onSelect={(rowData, method) => {
-              console.log(rowData.id);
-              if (method === 0) {
-                getUrbanAreaById(rowData.id)
-                  .then(({ data }) => {
-                    console.log(data);
-                    if (data === null) {
-                      data = {};
-                    }
-                    this.setState({
-                      item: data,
-                      shouldOpenEditorDialog: true,
-                    });
-                  })
-                  .catch((err) => {
-                    console.log("loi");
-                  });
-              } else if (method === 1) {
-                this.handleDelete(rowData.id);
-              } else {
-                alert("Call Selected Here:" + rowData.id);
-              }
-            }}
-          />
-        ),
-      },
-      {
-        title: t("general.code"), field: "code", width: "150"
-      },
-      {
-        title: "Tên nhân viên", field: "displayName", width: "150"
-      },
-      {
-        title: "Số điện thoại", field: "phoneNumber", width: "150"
-      },
-      {
-        title: "Loại nhân viên",
-        field: "",
+        title: t("general.code"),
+        field: "maSP",
         width: "150",
-        render: rowData => {
-          if (rowData.type === 1) return 'Nhân viên viên bán hàng';
-          else if (rowData.type === 2) return 'Nhân viên viên thu ngân';
-          else if (rowData.type === 3) return 'Khác'
-          else return "";
-        }
       },
+      {
+        title: t("general.name"),
+        field: "tenSP",
+        width: "150",
+      },
+      {
+        title: t("Kho"),
+        field: "tenKho",
+        width: "150",
+      },
+      {
+        title: t("Số lượng"),
+        field: "soLuong",
+        width: "150",
+      },
+      // {
+      //   title: t("Người nhập"), field: "nguoiNhap.displayName", width: "150"
+      // },
     ];
-
     return (
       <div className="m-sm-30">
         <Helmet>
@@ -435,20 +406,29 @@ class UrbanAreaTable extends React.Component {
         </div>
 
         <Grid container spacing={2} justify="space-between">
-          <Grid item md={3} xs={12}>
+          <Grid item md={2} xs={12}>
             <Button
+              className="mt-16 align-bottom"
+              variant="contained"
+              color="primary"
+              onClick={this.exportToExcel}
+            >
+              Xuất excel
+            </Button>
+            {/* <Button
               className="mb-16 mr-16 align-bottom"
               variant="contained"
               color="primary"
               onClick={() => {
                 this.handleEditItem({
-                  isEdit:false
+                  startDate: new Date(),
+                  endDate: new Date(),
                 });
               }}
             >
               {t("general.add")}
             </Button>
-            {/* <Button
+            <Button
               className="mb-16 mr-36 align-bottom"
               variant="contained"
               color="primary"
@@ -457,66 +437,102 @@ class UrbanAreaTable extends React.Component {
             >
               {t("general.delete")}
             </Button> */}
-
-            {shouldOpenNotificationPopup && (
-              <NotificationPopup
-                title={t("general.noti")}
-                open={shouldOpenNotificationPopup}
-                onConfirmDialogClose={this.handleDialogClose}
-                onYesClick={this.handleDialogClose}
-                text="Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống?"
-                Yes="Đồng ý"
-                No="Hủy"
-              />
-            )}
-
-            {shouldOpenConfirmationDeleteAllDialog && (
-              <ConfirmationDialog
-                open={shouldOpenConfirmationDeleteAllDialog}
-                onConfirmDialogClose={this.handleDialogClose}
-                onYesClick={this.handleDeleteAll}
-                text="Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống?"
-                Yes="Đồng ý"
-                No="Hủy"
-              />
-            )}
-            {this.state.shouldOpenConfirmationDeleteListDialog && (
-              <ConfirmationDialog
-                open={this.state.shouldOpenConfirmationDeleteListDialog}
-                onConfirmDialogClose={this.handleDialogClose}
-                onYesClick={this.handleDeleteAll}
-                text="Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống?"
-                Yes="Đồng ý"
-                No="Hủy"
-              />
-            )}
           </Grid>
-          <Grid item md={4} sm={12} xs={12}>
-            <FormControl fullWidth>
-              <Input
-                className="search_box w-100"
-                onChange={this.handleTextChange}
-                onKeyDown={this.handleKeyDownEnterSearch}
-                placeholder="Nhập từ khóa tìm kiếm..."
-                id="search_box"
-                startAdornment={
-                  <InputAdornment>
-                    <Link>
-                      {" "}
-                      <SearchIcon
-                        onClick={() => this.search(keyword)}
-                        style={{ position: "absolute", top: "0", right: "0" }}
-                      />
-                    </Link>
-                  </InputAdornment>
+          <Grid item md={3} sm={12} xs={12}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                label={
+                  <span>
+                    <span style={{ color: "red" }}></span>Từ ngày
+                  </span>
                 }
+                className="w-100"
+                disableToolbar
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                name="fromDate"
+                value={this.state.fromDate}
+                onChange={(date) => this.handleChangeDate(date, "fromDate")}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                inputVariant="outlined"
+                size="small"
               />
-            </FormControl>
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item md={3} sm={12} xs={12}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                label={
+                  <span>
+                    <span style={{ color: "red" }}></span>Đến ngày
+                  </span>
+                }
+                className="w-100"
+                disableToolbar
+                format="dd/MM/yyyy"
+                margin="normal"
+                id="date-picker-inline"
+                name="toDate"
+                value={this.state.toDate}
+                onChange={(date) => this.handleChangeDate(date, "toDate")}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                inputVariant="outlined"
+                size="small"
+              />
+            </MuiPickersUtilsProvider>
+          </Grid>
+          {shouldOpenNotificationPopup && (
+            <NotificationPopup
+              title={t("general.noti")}
+              open={shouldOpenNotificationPopup}
+              onYesClick={this.handleDialogClose}
+              text={t(this.state.Notification)}
+              agree={t("general.agree")}
+            />
+          )}
+
+          {shouldOpenConfirmationDeleteAllDialog && (
+            <ConfirmationDialog
+              open={shouldOpenConfirmationDeleteAllDialog}
+              onConfirmDialogClose={this.handleDialogClose}
+              onYesClick={this.handleDeleteAll}
+              text={t("general.deleteAllConfirm")}
+              agree={t("general.agree")}
+              cancel={t("general.cancel")}
+            />
+          )}
+          {this.state.shouldOpenConfirmationDeleteListDialog && (
+            <ConfirmationDialog
+              open={this.state.shouldOpenConfirmationDeleteListDialog}
+              onConfirmDialogClose={this.handleDialogClose}
+              onYesClick={this.handleDeleteAll}
+              text={t("general.deleteConfirm")}
+              agree={t("general.agree")}
+              cancel={t("general.cancel")}
+            />
+          )}
+           <Grid item md={4} sm={12} xs={12}>
+            <ValidatorForm>
+              <AsynchronousAutocomplete
+                label={t("Chọn kho")}
+                searchFunction={searchStore}
+                searchObject={SearchObject}
+                defaultValue={kho}
+                displayLable={"tenKho"}
+                value={kho}
+                onSelect={this.selectKho}
+              />
+            </ValidatorForm>
           </Grid>
           <Grid item xs={12}>
             <div>
-              {shouldOpenEditorDialog && (
-                <UrbanAreaDialog
+              {/* {shouldOpenEditorDialog && (
+                <PhieuNhapKhoDialog
                   t={t}
                   i18n={i18n}
                   handleClose={this.handleDialogClose}
@@ -524,7 +540,7 @@ class UrbanAreaTable extends React.Component {
                   handleOKEditClose={this.handleOKEditClose}
                   item={item}
                 />
-              )}
+              )} */}
 
               {shouldOpenConfirmationDialog && (
                 <ConfirmationDialog
@@ -532,9 +548,9 @@ class UrbanAreaTable extends React.Component {
                   open={shouldOpenConfirmationDialog}
                   onConfirmDialogClose={this.handleDialogClose}
                   onYesClick={this.handleConfirmationResponse}
-                  text="Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống?"
-                  Yes="Đồng ý"
-                  No="Hủy"
+                  text={t("general.deleteConfirm")}
+                  agree={t("general.agree")}
+                  cancel={t("general.cancel")}
                 />
               )}
             </div>
@@ -543,10 +559,10 @@ class UrbanAreaTable extends React.Component {
               data={itemList}
               columns={columns}
               //parentChildData={(row, rows) => rows.find(a => a.id === row.parentId)}
-              parentChildData={(row, rows) => {
-                var list = rows.find((a) => a.id === row.parentId);
-                return list;
-              }}
+              // parentChildData={(row, rows) => {
+              //   var list = rows.find((a) => a.id === row.parentId);
+              //   return list;
+              // }}
               localization={{
                 body: {
                   emptyDataSourceMessage: `${t(
@@ -591,7 +607,8 @@ class UrbanAreaTable extends React.Component {
               component="div"
               labelRowsPerPage={t("general.rows_per_page")}
               labelDisplayedRows={({ from, to, count }) =>
-                `${from}-${to} ${t("general.of")} ${count !== -1 ? count : `more than ${to}`
+                `${from}-${to} ${t("general.of")} ${
+                  count !== -1 ? count : `more than ${to}`
                 }`
               }
               count={totalElements}
@@ -613,4 +630,4 @@ class UrbanAreaTable extends React.Component {
   }
 }
 
-export default UrbanAreaTable;
+export default BaoCaoXuat;

@@ -1,5 +1,6 @@
 package com.globits.da.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.globits.core.service.impl.GenericServiceImpl;
-import com.globits.da.domain.Color;
 import com.globits.da.domain.InventoryDeliveryVoucher;
 import com.globits.da.domain.ProductInventoryDeliveryVoucher;
 import com.globits.da.domain.ProductWarehouse;
@@ -24,11 +24,11 @@ import com.globits.da.domain.Staff;
 import com.globits.da.domain.Warehouse;
 import com.globits.da.dto.InventoryDeliveryVoucherDto;
 import com.globits.da.dto.ProductInventoryDeliveryVoucherDto;
+import com.globits.da.dto.search.ReportDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.ColorRepository;
 import com.globits.da.repository.InventoryDeliveryVoucherRepository;
 import com.globits.da.repository.ProductColorRepository;
-import com.globits.da.repository.ProductImageRepository;
 import com.globits.da.repository.ProductInventoryDeliveryVoucherRepository;
 import com.globits.da.repository.ProductRepository;
 import com.globits.da.repository.ProductWarehouseRepository;
@@ -217,5 +217,87 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 			}
 		return null;
 	}
+
+	@Override
+	public List<ReportDto> baoCao(SearchDto dto) {
+		String whereClause = "";
+
+		String orderBy = " ORDER BY entity.createDate DESC";
+
+		String sql = "select new com.globits.da.dto.InventoryDeliveryVoucherDto(entity) from InventoryDeliveryVoucher as entity where (1=1)  ";
+
+		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
+			whereClause += " AND ( entity.name LIKE :text or  entity.code LIKE :text )";
+		}
+		if (dto.getFromDate() != null && dto.getToDate() != null) {
+			whereClause += " AND ( entity.exportDate BETWEEN :fromDate and :toDate  )";
+		}
+		if (dto.getKhoId() != null && dto.getKhoId() != null) {
+			whereClause += " AND ( entity.warehouse.id = :khoId )";
+		}
+
+		sql += whereClause + orderBy;
+
+		Query q = manager.createQuery(sql, InventoryDeliveryVoucherDto.class);
+
+		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
+			q.setParameter("text", '%' + dto.getKeyword() + '%');
+		}
+		if (dto.getFromDate() != null && dto.getToDate() != null) {
+			q.setParameter("fromDate", dto.getFromDate());
+			q.setParameter("toDate", dto.getToDate());
+		}
+		if (dto.getKhoId() != null && dto.getKhoId() != null) {
+			q.setParameter("khoId", dto.getKhoId());
+		}
+		List<InventoryDeliveryVoucherDto> entities = q.getResultList();
+		List<ReportDto> result = new ArrayList<ReportDto>();
+		List<ProductInventoryDeliveryVoucherDto> listSPPN = new ArrayList<ProductInventoryDeliveryVoucherDto>();
+		
+		if (entities != null && entities.size() > 0) {
+			for (InventoryDeliveryVoucherDto nhapDto : entities) {
+				if (nhapDto.getProductInventoryDeliveryVoucher() != null && nhapDto.getProductInventoryDeliveryVoucher().size() > 0) {
+					for (ProductInventoryDeliveryVoucherDto sanPhamPhieuNhap : nhapDto.getProductInventoryDeliveryVoucher()) {
+						listSPPN.add(sanPhamPhieuNhap);
+					}
+				}
+			}
+		}
+		if (listSPPN != null && listSPPN.size() > 0) {
+			for (ProductInventoryDeliveryVoucherDto spDto : listSPPN) {
+				ReportDto bc = new ReportDto();
+				bc.setSanPhamId(spDto.getProductColor().getProduct().getId());
+				bc.setTenSP(spDto.getProductColor().getProduct().getName());
+				bc.setMaSP(spDto.getProductColor().getProduct().getCode());
+				bc.setKhoId(spDto.getInventoryDeliveryVoucher().getWarehouse().getId());
+				bc.setTenKho(spDto.getInventoryDeliveryVoucher().getWarehouse().getName());
+				bc.setSoLuong(0);
+				if (spDto.getProductNumber() != null) {
+					bc.setSoLuong(spDto.getProductNumber());
+				}
+
+				if (result != null && result.size() == 0) {
+					result.add(bc);
+				} else {
+					Boolean check = false;
+					for (ReportDto bcDto : result) {
+						if (bc.getSanPhamId().equals(bcDto.getSanPhamId()) && bc.getKhoId().equals(bcDto.getKhoId())) {
+							bcDto.setSoLuong(bcDto.getSoLuong() + bc.getSoLuong());
+							check = true;
+							break;
+						} else {
+							check = false;
+						}
+					}
+					if (!check) {
+						result.add(bc);
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+
 
 }

@@ -228,7 +228,7 @@ import {
         this.handleDialogClose();
         toast.success(t("Xóa thành công"));
       }).catch(() => {
-        toast.warning(t("agency.warning-delete"));
+        toast.warning(t("Không thể xóa"));
       });
     };
     handleEditItem = (item) => {
@@ -260,10 +260,10 @@ import {
       }
       this.handleDialogClose();
       if (listAlert.length === list.length) {
-        toast.warning(t("agency.use_all"));
+        toast.warning(t("Nhà cung cấp đều đã được sử dụng"));
         // alert("Các trạng thái đều đã sử dụng");
       } else if (listAlert.length > 0) {
-        toast.warning(t("agency.deleted_unused"));
+        toast.warning(t("Đã xoá các nhà cung cấp chưa sử dụng"));
         // alert("Đã xoá các trạng thái chưa sử dụng");
       }
     }

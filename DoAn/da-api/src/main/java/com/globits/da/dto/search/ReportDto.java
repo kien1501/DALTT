@@ -12,6 +12,11 @@ public class ReportDto {
 	private Integer soLuong;
 	private Date ngayNhap;
 	private Integer soLuongNhap;
+	//
+	//báo cáo đơn hàng
+	private Double tongTienNhap;
+	private Integer soLuongBan;
+	private Double tongTienBan;
 	public UUID getSanPhamId() {
 		return sanPhamId;
 	}
@@ -59,6 +64,24 @@ public class ReportDto {
 	}
 	public void setSoLuongNhap(Integer soLuongNhap) {
 		this.soLuongNhap = soLuongNhap;
+	}
+	public Double getTongTienNhap() {
+		return tongTienNhap;
+	}
+	public void setTongTienNhap(Double tongTienNhap) {
+		this.tongTienNhap = tongTienNhap;
+	}
+	public Integer getSoLuongBan() {
+		return soLuongBan;
+	}
+	public void setSoLuongBan(Integer soLuongBan) {
+		this.soLuongBan = soLuongBan;
+	}
+	public Double getTongTienBan() {
+		return tongTienBan;
+	}
+	public void setTongTienBan(Double tongTienBan) {
+		this.tongTienBan = tongTienBan;
 	}
 	
 }

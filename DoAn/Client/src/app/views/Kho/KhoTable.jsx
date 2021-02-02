@@ -257,7 +257,7 @@ class RealEstateSourceTable extends React.Component {
         toast.success(t("Xóa thành công"));
       })
       .catch(() => {
-        toast.warning(t("source.warning-delete"));
+        toast.warning(t("Không thể xóa kho này"));
       });
   };
 
@@ -329,10 +329,10 @@ class RealEstateSourceTable extends React.Component {
     // toast.success(t("general.deleteSuccess"));
     this.handleDialogClose();
     if (listAlert.length === list.length) {
-      toast.warning(t("source.use_all"));
+      toast.warning(t("Tất cả các kho đề đã được sử dụng"));
       // alert("Các trạng thái đều đã sử dụng");
     } else if (listAlert.length > 0) {
-      toast.warning(t("source.deleted_unused"));
+      toast.warning(t("Đã xóa các kho chưa sử dụng"));
       // alert("Đã xoá các trạng thái chưa sử dụng");
     }
   }

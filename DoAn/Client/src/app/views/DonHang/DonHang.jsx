@@ -71,7 +71,7 @@ import {
     return (
       <div className="none_wrap">
         <LightTooltip
-          title={t("general.editIcon")}
+          title={t("In hóa đơn")}
           placement="right-end"
           enterDelay={300}
           leaveDelay={200}
@@ -83,7 +83,7 @@ import {
           </IconButton>
         </LightTooltip>
         <LightTooltip
-          title={t("general.editIcon")}
+          title={t("Xem chi tiết")}
           placement="right-end"
           enterDelay={300}
           leaveDelay={200}
@@ -330,9 +330,9 @@ import {
                   this.handleDelete(rowData.id);
                 }else if (method === 2) {
                   getItemById(rowData.id).then(({ data }) => {
-                    if (data.parent === null) {
-                      data.parent = {};
-                    }
+                    // if (data.parent === null) {
+                    //   data.parent = {};
+                    // }
                     this.setState({
                       item: data,
                       shouldOpenPrint: true,

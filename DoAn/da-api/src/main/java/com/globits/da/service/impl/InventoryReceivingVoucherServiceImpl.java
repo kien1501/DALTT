@@ -1,5 +1,6 @@
 package com.globits.da.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,8 +24,10 @@ import com.globits.da.domain.Staff;
 import com.globits.da.domain.Warehouse;
 import com.globits.da.dto.InventoryReceivingVoucherDto;
 import com.globits.da.dto.ProductInventoryReceivingVoucherDto;
+import com.globits.da.dto.search.ReportDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.repository.ColorRepository;
+import com.globits.da.repository.InventoryDeliveryVoucherRepository;
 import com.globits.da.repository.InventoryReceivingVoucherRepository;
 import com.globits.da.repository.ProductColorRepository;
 import com.globits.da.repository.ProductInventoryReceivingVoucherRepository;
@@ -32,6 +35,7 @@ import com.globits.da.repository.ProductRepository;
 import com.globits.da.repository.ProductWarehouseRepository;
 import com.globits.da.repository.StaffRepository;
 import com.globits.da.repository.WarehouseRepository;
+import com.globits.da.service.InventoryDeliveryVoucherService;
 import com.globits.da.service.InventoryReceivingVoucherService;
 @Service
 public class InventoryReceivingVoucherServiceImpl extends GenericServiceImpl< InventoryReceivingVoucher, UUID> implements  InventoryReceivingVoucherService{
@@ -52,6 +56,8 @@ public class InventoryReceivingVoucherServiceImpl extends GenericServiceImpl< In
 	ColorRepository colorRepository;
 	@Autowired
 	ProductColorRepository productColorRepository;
+	@Autowired
+	InventoryDeliveryVoucherService phieuXuatKhoService;
 	@Override
 	public Page<InventoryReceivingVoucherDto> getPage(int pageSize, int pageIndex) {
 		Pageable pageable = PageRequest.of(pageIndex-1, pageSize);
@@ -229,5 +235,136 @@ public class InventoryReceivingVoucherServiceImpl extends GenericServiceImpl< In
 			}
 		return null;
 	}
+
+	@Override
+	public List<ReportDto> baoCao(SearchDto dto) {
+		String whereClause = "";
+
+		String orderBy = " ORDER BY entity.createDate DESC";
+
+		String sql = "select new com.globits.da.dto.InventoryReceivingVoucherDto(entity) from InventoryReceivingVoucher as entity where (1=1)  ";
+
+		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
+			whereClause += " AND ( entity.code LIKE :text or  entity.name LIKE :text )";
+		}
+		if (dto.getFromDate() != null && dto.getToDate() != null) {
+			whereClause += " AND ( entity.dateAdded BETWEEN :fromDate and :toDate  )";
+		}
+		if (dto.getKhoId() != null && dto.getKhoId() != null) {
+			whereClause += " AND ( entity.warehouse.id = :khoId )";
+		}
+
+		sql += whereClause + orderBy;
+
+		Query q = manager.createQuery(sql, InventoryReceivingVoucherDto.class);
+
+		if (dto.getKeyword() != null && StringUtils.hasText(dto.getKeyword())) {
+			q.setParameter("text", '%' + dto.getKeyword() + '%');
+		}
+		if (dto.getFromDate() != null && dto.getToDate() != null) {
+			q.setParameter("fromDate", dto.getFromDate());
+			q.setParameter("toDate", dto.getToDate());
+		}
+		if (dto.getKhoId() != null && dto.getKhoId() != null) {
+			q.setParameter("khoId", dto.getKhoId());
+		}
+		List<InventoryReceivingVoucherDto> entities = q.getResultList();
+		List<ReportDto> result = new ArrayList<ReportDto>();
+		List<ProductInventoryReceivingVoucherDto> listSPPN = new ArrayList<ProductInventoryReceivingVoucherDto>();
+		if (entities != null && entities.size() > 0) {
+			for (InventoryReceivingVoucherDto nhapDto : entities) {
+				if (nhapDto.getProductInventoryReceivingVoucher() != null && nhapDto.getProductInventoryReceivingVoucher().size() > 0) {
+					for (ProductInventoryReceivingVoucherDto sanPhamPhieuNhap : nhapDto.getProductInventoryReceivingVoucher()) {
+						listSPPN.add(sanPhamPhieuNhap);
+					}
+				}
+			}
+		}
+		if (listSPPN != null && listSPPN.size() > 0) {
+			for (ProductInventoryReceivingVoucherDto spDto : listSPPN) {
+				ReportDto bc = new ReportDto();
+				bc.setSanPhamId(spDto.getProductColor().getProduct().getId());
+				bc.setTenSP(spDto.getProductColor().getProduct().getName());
+				bc.setMaSP(spDto.getProductColor().getProduct().getCode());
+				bc.setKhoId(spDto.getWarehouse().getId());
+				bc.setTenKho(spDto.getWarehouse().getName());
+				bc.setTongTienNhap(0.0);
+				if(spDto.getPrice() != null) {
+					bc.setTongTienNhap(spDto.getPrice());
+				}
+				bc.setSoLuong(0);
+				if (spDto.getProductNumber() != null) {
+					bc.setSoLuong(spDto.getProductNumber());
+				}
+
+				if (result != null && result.size() == 0) {
+					result.add(bc);
+				} else {
+					Boolean check = false;
+					for (ReportDto bcDto : result) {
+						if (bc.getSanPhamId().equals(bcDto.getSanPhamId()) && bc.getKhoId().equals(bcDto.getKhoId())) {
+							bcDto.setSoLuong(bcDto.getSoLuong() + bc.getSoLuong());
+							bcDto.setTongTienNhap(bcDto.getTongTienNhap() + bc.getTongTienNhap());
+							check = true;
+							break;
+						} else {
+							check = false;
+						}
+					}
+					if (!check) {
+						result.add(bc);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<ReportDto> baoCaoTon(SearchDto dto) {
+		// TODO Auto-generated method stub
+				if (dto == null) {
+					return null;
+				}
+
+				List<ReportDto> baoCaoNhap = this.baoCao(dto);
+				List<ReportDto> baoCaoXuat = phieuXuatKhoService.baoCao(dto);
+
+				if (baoCaoNhap == null && baoCaoNhap.size() == 0) {
+					return null;
+				}
+
+				if (baoCaoXuat != null && baoCaoXuat.size() > 0) {
+					for (ReportDto bc : baoCaoXuat) {
+						bc.setSoLuong(-bc.getSoLuong());
+						baoCaoNhap.add(bc);
+					}
+				}
+
+				List<ReportDto> baoCaoTon = new ArrayList<ReportDto>();
+				if (baoCaoNhap != null && baoCaoNhap.size() > 0) {
+					for (ReportDto bc : baoCaoNhap) {
+						if (baoCaoTon != null && baoCaoTon.size() == 0) {
+							baoCaoTon.add(bc);
+						} else {
+							Boolean check = false;
+							for (ReportDto bcDto : baoCaoTon) {
+								if (bc.getSanPhamId().equals(bcDto.getSanPhamId()) && bc.getKhoId().equals(bcDto.getKhoId())) {
+									bcDto.setSoLuong(bcDto.getSoLuong() + bc.getSoLuong());
+									check = true;
+									break;
+								} else {
+									check = false;
+								}
+							}
+							if (!check) {
+								baoCaoTon.add(bc);
+							}
+						}
+					}
+				}
+
+				return baoCaoTon;
+			}
 
 }

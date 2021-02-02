@@ -26,6 +26,9 @@ import CustomerRoutes from "./views/Customer/CustomerRoutes"
 import ColorRoutes from "./views/Color/ColorRoutes"
 import DonHangRoutes from "./views/DonHang/DonHangRoutes";
 import EventRoutes from "./views/Event/EventRoutes";
+import BaoCaoNhapRoutes from "./views/BaoCaoNhap/BaoCaoNhapRoutes";
+import BaoCaoTonRoutes from "./views/BaoCaoTon/BaoCaoTonRoutes";
+import BaoCaoXuatRoutes from "./views/BaoCaoXuat/BaoCaoXuatRoutes";
 
 const redirectRoute = [
   {
@@ -64,6 +67,9 @@ const routes = [
   ...DonHangRoutes,
   ...DonViTinhRoutes,
   ...EventRoutes,
+  ...BaoCaoNhapRoutes,
+  ...BaoCaoTonRoutes,
+  ...BaoCaoXuatRoutes,
   ...errorRoute
 
 ];

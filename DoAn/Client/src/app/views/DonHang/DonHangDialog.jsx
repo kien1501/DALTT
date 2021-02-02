@@ -72,7 +72,7 @@ function MaterialButton(props) {
   const item = props.item;
   return (
     <div className="none_wrap">
-      <LightTooltip
+      {/* <LightTooltip
         title={t("general.editIcon")}
         placement="right-end"
         enterDelay={300}
@@ -83,7 +83,7 @@ function MaterialButton(props) {
             edit
           </Icon>
         </IconButton>
-      </LightTooltip>
+      </LightTooltip> */}
       <LightTooltip
         title={t("general.deleteIcon")}
         placement="right-end"

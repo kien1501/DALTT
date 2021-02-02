@@ -273,7 +273,7 @@ class DonHangPrint extends React.Component {
                                   textAlign: "center",
                                 }}
                               >
-                                {row.product !== null
+                                {row.productColor !== null
                                   ? row.productColor.product.name
                                   : ""}
                               </td>
@@ -283,7 +283,7 @@ class DonHangPrint extends React.Component {
                                   textAlign: "center",
                                 }}
                               >
-                                {row.product !== null
+                                {row.productColor !== null
                                   ? row.productColor.color.name
                                   : ""}
                               </td>

@@ -227,7 +227,7 @@ import {
         this.updatePageData();
         this.handleDialogClose();
       }).catch(() => {
-        toast.warning(t("RequirementType.warning-delete"));
+        toast.warning(t("Không thể xóa sản phẩm này"));
       });
     };
     handleEditItem = (item) => {
@@ -259,10 +259,10 @@ import {
       }
       this.handleDialogClose();
       if (listAlert.length === list.length) {
-        toast.warning(t("RequirementType.use_all"));
+        toast.warning(t("Các sản phẩm đều đã sử dụng"));
         // alert("Các trạng thái đều đã sử dụng");
       } else if (listAlert.length > 0) {
-        toast.warning(t("RequirementType.deleted_unused"));
+        toast.warning(t("Đã xóa những sản phẩm có thể xóa"));
         // alert("Đã xoá các trạng thái chưa sử dụng");
       }
     }

@@ -1,5 +1,6 @@
 package com.globits.da.rest;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.globits.da.HrConstants;
 import com.globits.da.dto.InventoryReceivingVoucherDto;
+import com.globits.da.dto.search.ReportDto;
 import com.globits.da.dto.search.SearchDto;
 import com.globits.da.service.InventoryReceivingVoucherService;
 
@@ -69,5 +71,18 @@ public ResponseEntity<Page<InventoryReceivingVoucherDto>> searchByPage(@RequestB
 public ResponseEntity<Boolean> checkCode(@RequestParam(value = "id", required=false) UUID id, @RequestParam("code") String code) {
 	Boolean result = phieuNhapKhoService.checkCode(id, code);
 	return new ResponseEntity<Boolean>(result, (result != null) ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+}
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_SUPER_ADMIN })
+@RequestMapping(value = "/baoCao", method = RequestMethod.POST)
+public ResponseEntity<List<ReportDto>> baoCao(@RequestBody SearchDto searchDto) {
+	List<ReportDto> page = this.phieuNhapKhoService.baoCao(searchDto);
+	return new ResponseEntity<List<ReportDto>>(page, HttpStatus.OK);
+}
+
+@Secured({ HrConstants.ROLE_HR_MANAGEMENT, HrConstants.ROLE_SUPER_ADMIN })
+@RequestMapping(value = "/baoCaoTon", method = RequestMethod.POST)
+public ResponseEntity<List<ReportDto>> baoCaoTon(@RequestBody SearchDto searchDto) {
+	List<ReportDto> page = this.phieuNhapKhoService.baoCaoTon(searchDto);
+	return new ResponseEntity<List<ReportDto>>(page, HttpStatus.OK);
 }
 }

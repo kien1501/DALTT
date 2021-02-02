@@ -105,24 +105,21 @@ class UrbanAreaDialog extends Component {
     let { code } = this.state;
     var { t } = this.props;
     checkCode(id, code).then((result) => {
-      //Nếu trả về true là code đã được sử dụng
       if (result.data) {
         toast.warning("Mã nhân viên đã sử dụng, vui lòng điền một mã khác.");
-        // alert("Code đã được sử dụng");
       } else {
-        //Nếu trả về false là code chưa sử dụng có thể dùng
         if (id) {
           updateUrbanArea({
             ...this.state,
           }).then((res) => {
-            if(res.data.hasPhoneNumber == true || res.data.hasUserName == true){
-              toast.warning("Số điện thoại này đã được sử dụng");
-              return;
-            }
-            if(res.data.hasEmail == true){
-              toast.warning("Email này đã được sử dụng");
-              return;
-            }
+            // if(res.data.hasPhoneNumber == true || res.data.hasUserName == true){
+            //   toast.warning("Số điện thoại này đã được sử dụng");
+            //   return;
+            // }
+            // if(res.data.hasEmail == true){
+            //   toast.warning("Email này đã được sử dụng");
+            //   return;
+            // }
             toast.success("Cập nhật thành công thông tin nhân viên");
             this.props.handleOKEditClose();
           });
@@ -130,14 +127,14 @@ class UrbanAreaDialog extends Component {
           addNewUrbanArea({
             ...this.state,
           }).then((res) => {
-            if(res.data.hasPhoneNumber == true || res.data.hasUserName == true){
-              toast.warning("Số điện thoại này đã được sử dụng");
-              return;
-            }
-            if(res.data.hasEmail == true){
-              toast.warning("Email này đã được sử dụng");
-              return;
-            }
+            // if(res.data.hasPhoneNumber == true || res.data.hasUserName == true){
+            //   toast.warning("Số điện thoại này đã được sử dụng");
+            //   return;
+            // }
+            // if(res.data.hasEmail == true){
+            //   toast.warning("Email này đã được sử dụng");
+            //   return;
+            // }
             toast.success("Thêm mới thành công nhân viên");
             this.props.handleOKEditClose();
           });
