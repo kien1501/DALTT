@@ -70,10 +70,10 @@ public class OrderServiceImpl extends GenericServiceImpl<Order, UUID> implements
 			entity.setCode(dto.getCode());
 			if(dto.getStatus().equals(2)) {
 				entity.setOrderDate(new Date());
+			}else if (dto.getStatus().equals(3)) {
+				entity.setDeliveryDate(new Date());
 			}
-			if(dto.getStatus().equals(3)) {
-				entity.setDeliveryDate(dto.getDeliveryDate());
-			}
+			
 			
 			entity.setTotalPrice(dto.getTotalPrice());
 			entity.setDiscount(dto.getDiscount());
