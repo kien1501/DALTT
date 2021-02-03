@@ -506,8 +506,8 @@ class BaoCaoNhap extends React.Component {
                 label={t("Chọn kho")}
                 searchFunction={searchStore}
                 searchObject={SearchObject}
-                defaultValue={kho}
-                displayLable={"tenKho"}
+                // defaultValue={kho}
+                displayLable={"name"}
                 value={kho}
                 onSelect={this.selectKho}
               />
