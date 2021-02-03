@@ -390,7 +390,7 @@ class PhieuNhapKhoDialog extends Component {
                     type="text"
                     autoOk={false}
                     format="dd/MM/yyyy"
-                    value={this.state.dateAdded}
+                    value={this.state.dateAdded ? this.state.dateAdded:null}
                     onChange={date => this.handleDateChange(date, "dateAdded")}
                   />
                 </MuiPickersUtilsProvider>
