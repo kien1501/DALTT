@@ -86,7 +86,11 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff, UUID> implements
 				user = new User();
 				person = new Person();
 			}
-			
+			entity.setCode(dto.getCode());
+			entity.setType(dto.getType());
+			entity.setDisplayName(dto.getDisplayName());
+			entity.setEmail(dto.getEmail());
+			entity.setPhoneNumber(dto.getPhoneNumber());
 			// check userName tồn tại hay chưa
 			UserDto userDto = userService.findByUsername(dto.getPhoneNumber());
 			if (userDto != null) {
@@ -106,11 +110,7 @@ public class StaffServiceImpl extends GenericServiceImpl<Staff, UUID> implements
 				return result;
 			}
 
-			entity.setCode(dto.getCode());
-			entity.setType(dto.getType());
-			entity.setDisplayName(dto.getDisplayName());
-			entity.setEmail(dto.getEmail());
-			entity.setPhoneNumber(dto.getPhoneNumber());
+			
 			if (dto.getShiftWork() != null && dto.getShiftWork().getId() != null) {
 				ShiftWork sw = shiftWorkRepository.getOne(dto.getShiftWork().getId());
 				if (sw != null) {
