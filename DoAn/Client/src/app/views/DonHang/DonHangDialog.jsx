@@ -245,12 +245,12 @@ class DonHangDialog extends Component {
         field: "productColor.product.name",
         width: "300",
         headerStyle: {
-          minWidth: "200px",
+          minWidth: "250px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "200px",
+          minWidth: "250px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
@@ -314,12 +314,12 @@ class DonHangDialog extends Component {
         field: "intoMoney",
         width: "200",
         headerStyle: {
-          minWidth: "200px",
+          minWidth: "150px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "200px",
+          minWidth: "150px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
