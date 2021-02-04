@@ -363,6 +363,7 @@ class DonHangDialog extends Component {
                   size="small">
                   <InputLabel htmlFor="gender-simple">{<span className="font"><span style={{ color: "red" }}>*</span>Trạng thái đơn hàng</span>}</InputLabel>
                   <Select
+                  label = {<span className={classes.textHeader}><span style={{color:"red"}}>*</span>Trạng thái đơn hàng</span>}
                     value={this.state.status}
                     onChange={status => this.handleChange(status, "status")}
                     inputProps={{
