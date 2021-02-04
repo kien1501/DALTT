@@ -244,6 +244,17 @@ class DonHangDialog extends Component {
         title: t("Tên sản phẩm"),
         field: "productColor.product.name",
         width: "300",
+        headerStyle: {
+          minWidth: "150px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+        },
+        cellStyle: {
+          minWidth: "150px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+          textAlign: "left",
+        },
       },
       {
         title: t("Mã sản phẩm"),
@@ -274,14 +285,14 @@ class DonHangDialog extends Component {
       {
         title: t("Đơn giá"),
         field: "productColor.product.currentSellingPrice",
-        width: "300",
+        width: "200",
         headerStyle: {
           minWidth: "300px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "300px",
+          minWidth: "200px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
@@ -290,14 +301,14 @@ class DonHangDialog extends Component {
       {
         title: t("Thành tiền"),
         field: "intoMoney",
-        width: "400",
+        width: "200",
         headerStyle: {
-          minWidth: "300px",
+          minWidth: "200px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "300px",
+          minWidth: "200px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
