@@ -266,12 +266,12 @@ class DonHangDialog extends Component {
         field: "productColor.color.name",
         width: "300",
         headerStyle: {
-          minWidth: "150px",
+          minWidth: "200px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "150px",
+          minWidth: "200px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
