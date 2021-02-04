@@ -260,18 +260,29 @@ class DonHangDialog extends Component {
         title: t("Mã sản phẩm"),
         field: "productColor.product.code",
         width: "300",
+        headerStyle: {
+          minWidth: "125px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+        },
+        cellStyle: {
+          minWidth: "125px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+          textAlign: "left",
+        },
       },
       {
         title: t("Màu sản phẩm"),
         field: "productColor.color.name",
         width: "300",
         headerStyle: {
-          minWidth: "200px",
+          minWidth: "150px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "200px",
+          minWidth: "150px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
