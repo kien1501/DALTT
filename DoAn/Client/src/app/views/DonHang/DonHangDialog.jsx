@@ -265,6 +265,17 @@ class DonHangDialog extends Component {
         title: t("Màu sản phẩm"),
         field: "productColor.color.name",
         width: "300",
+        headerStyle: {
+          minWidth: "150px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+        },
+        cellStyle: {
+          minWidth: "150px",
+          paddingLeft: "10px",
+          paddingRight: "0px",
+          textAlign: "left",
+        },
       },
       {
         title: t("Số lượng"),
@@ -287,12 +298,12 @@ class DonHangDialog extends Component {
         field: "productColor.product.currentSellingPrice",
         width: "200",
         headerStyle: {
-          minWidth: "300px",
+          minWidth: "100px",
           paddingLeft: "10px",
           paddingRight: "0px",
         },
         cellStyle: {
-          minWidth: "200px",
+          minWidth: "100px",
           paddingLeft: "10px",
           paddingRight: "0px",
           textAlign: "left",
