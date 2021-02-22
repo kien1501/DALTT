@@ -111,7 +111,7 @@ class EventDialog extends Component {
     agency:null,
     user:null,
     shouldOpenMultipleDialog : false,
-    isActive:false,
+    isActivate:false,
   };
 
   handleDialogClose = () => {
@@ -129,11 +129,11 @@ class EventDialog extends Component {
   handleChange = (event, source) => {
     event.persist();
     if (source === "switch") {
-      this.setState({ isActive: event.target.checked });
+      this.setState({ isActivate: event.target.checked });
       return;
     }
-    if (source === "isActive") {
-        this.setState({ isActive: event.target.checked });
+    if (source === "isActivate") {
+        this.setState({ isActivate: event.target.checked });
         return;
       }
     this.setState({
@@ -380,12 +380,12 @@ class EventDialog extends Component {
                 <FormControlLabel
                   variant="outlined"
                   size="small"
-                  value={this.state.isActive}
+                  value={this.state.isActivate}
                   className="mb-16"
-                  name="isActive"
-                  onChange={isActive => this.handleChange(isActive, "isActive")}
+                  name="isActivate"
+                  onChange={isActivate => this.handleChange(isActivate, "isActivate")}
                   control={<Checkbox
-                    checked={this.state.isActive}
+                    checked={this.state.isActivate}
                   />}
                   label={<span className="font">{t("Kích hoạt")}</span>}
                 />

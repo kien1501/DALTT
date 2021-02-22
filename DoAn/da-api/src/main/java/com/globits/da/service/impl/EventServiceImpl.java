@@ -56,7 +56,7 @@ public class EventServiceImpl extends GenericServiceImpl< Event, UUID> implement
 				entity = new Event();
 			}
 			Date date  = new Date();
-			if(dto.getIsActivate() != null && dto.getIsActivate() && !dto.getStartDate().before(date) || !dto.getEndDate().after(date)) {
+			if((dto.getIsActivate() != null && dto.getIsActivate()) && (!dto.getStartDate().before(date) || !dto.getEndDate().after(date))) {
 				return null;
 			}
 			entity.setName(dto.getName());

@@ -356,7 +356,7 @@ import {
         (rowData.deliveryDate) ? <span>{moment(rowData.deliveryDate).format("DD/MM/YYYY")}</span> : ''
         },
         { title: t("Tổng giá"), field: "totalPrice", align: "left", width: "150" },
-        { title: t("Thành tiền"), field: "intoMoney", align: "left", width: "150" },
+        // { title: t("Thành tiền"), field: "intoMoney", align: "left", width: "150" },
         { title: t("Khách hàng"), field: "customer.name", align: "left", width: "150" },    
       ];
     //   console.log(this.state.itemList);
