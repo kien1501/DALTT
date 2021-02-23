@@ -90,7 +90,7 @@ public class EventServiceImpl extends GenericServiceImpl< Event, UUID> implement
 					
 					if(dto.getIsActivate() != null &&  dto.getIsActivate()) {
 						if(sanPham.getPrice() > (sanPhamDonHang.getDiscountPercent()/100)*sanPham.getPrice()) {
-							sanPham.setCurrentSellingPrice(sanPham.getPrice() - (sanPhamDonHang.getDiscountPercent()/100)*sanPham.getPrice());
+							sanPham.setCurrentSellingPrice(sanPham.getPrice() - ((sanPhamDonHang.getDiscountPercent()/100)*sanPham.getPrice()));
 						}else {
 							sanPham.setCurrentSellingPrice(0.0);
 						}
