@@ -353,7 +353,7 @@ class EventDialog extends Component {
                     size="small"
                     type="text"
                     autoOk={false}
-                    format="dd/MM/yyyy"
+                    format="dd/MM/yyyy hh:mm"
                     value={this.state.startDate}
                     onChange={date => this.handleDateChange(date, "startDate")}
                   />
@@ -370,7 +370,7 @@ class EventDialog extends Component {
                     size="small"
                     type="text"
                     autoOk={false}
-                    format="dd/MM/yyyy"
+                    format="dd/MM/yyyy hh:mm"
                     value={this.state.endDate}
                     onChange={date => this.handleDateChange(date, "endDate")}
                   />
