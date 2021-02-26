@@ -282,7 +282,7 @@ public class InventoryDeliveryVoucherServiceImpl extends GenericServiceImpl< Inv
 				} else {
 					Boolean check = false;
 					for (ReportDto bcDto : result) {
-						if (bc.getSanPhamId().equals(bcDto.getSanPhamId()) && bc.getKhoId().equals(bcDto.getKhoId())) {
+						if (bc.getSanPhamId().equals(bcDto.getSanPhamId()) && bc.getKhoId().equals(bcDto.getKhoId()) && bc.getMau().equals(bcDto.getMau())) {
 							bcDto.setSoLuong(bcDto.getSoLuong() + bc.getSoLuong());
 							check = true;
 							break;
